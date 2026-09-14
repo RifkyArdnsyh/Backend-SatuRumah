@@ -42,7 +42,7 @@ class SurveyController extends Controller
             'pengajuan_id' => $pengajuan_id,
             'judul' => 'Penjadwalan Survey Dibuat',
             'deskripsi' => "Survey dijadwalkan pada tanggal {$request->tanggal_survey} dengan petugas {$request->petugas_nama}.",
-            'oleh' => auth()->user()->name ?? 'Admin DPKP',
+            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
             'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
         ]);
 

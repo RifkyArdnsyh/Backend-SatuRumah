@@ -30,7 +30,7 @@
                             14 Mei 2025 &middot; 10.42
                         </div>
                         <div style="font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.5;">
-                            Admin DPKP mengirim permintaan perbaikan untuk 3 dokumen.
+                            Verifikator Disperwaskim mengirim permintaan perbaikan untuk 3 dokumen.
                         </div>
                     </div>
                 </div>

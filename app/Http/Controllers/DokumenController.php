@@ -37,7 +37,7 @@ class DokumenController extends Controller
             'pengajuan_id' => $dokumen->pengajuan_id,
             'judul' => 'Verifikasi Dokumen: ' . $dokumen->nama_persyaratan,
             'deskripsi' => "Status dokumen diubah menjadi '{$dokumen->status}'" . ($request->catatan ? ". Catatan: {$request->catatan}" : ""),
-            'oleh' => auth()->user()->name ?? 'Admin DPKP',
+            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
             'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
         ]);
 

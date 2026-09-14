@@ -35,7 +35,7 @@ class MonitoringController extends Controller
             'pengajuan_id' => $pengajuan_id,
             'judul' => 'Status Monitoring Diperbarui',
             'deskripsi' => "Status hasil monitoring diubah menjadi '{$newStatus}'.",
-            'oleh' => auth()->user()->name ?? 'Admin DPKP',
+            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
             'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
         ]);
 
@@ -57,7 +57,7 @@ class MonitoringController extends Controller
                 'pengajuan_id' => $pengajuan_id,
                 'judul' => 'Lanjutkan ke Persetujuan',
                 'deskripsi' => 'Pengajuan berhasil dilanjutkan ke tahap Persetujuan akhir.',
-                'oleh' => auth()->user()->name ?? 'Admin DPKP',
+                'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
                 'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
             ]);
 
@@ -72,7 +72,7 @@ class MonitoringController extends Controller
                 'pengajuan_id' => $pengajuan_id,
                 'judul' => 'Dikembalikan ke Perbaikan',
                 'deskripsi' => 'Pengajuan dikembalikan ke pengembang untuk perbaikan teknis.',
-                'oleh' => auth()->user()->name ?? 'Admin DPKP',
+                'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
                 'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
             ]);
 

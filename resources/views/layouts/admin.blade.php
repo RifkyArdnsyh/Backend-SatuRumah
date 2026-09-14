@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SATU RUMAH - Panel Admin DPKP')</title>
+    <title>@yield('title', 'SATU RUMAH - Portal Verifikator Disperwaskim')</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
                 <div class="sidebar-logo-icon">SR</div>
                 <div class="sidebar-logo-text">
                     <span class="sidebar-logo-title">SATU RUMAH</span>
-                    <span class="sidebar-logo-subtitle">PANEL ADMIN DPKP</span>
+                    <span class="sidebar-logo-subtitle">PORTAL VERIFIKATOR DISPERWASKIM</span>
                 </div>
             </div>
 
@@ -62,9 +62,9 @@
             <div class="sidebar-footer">
                 <div class="user-profile-summary">
                     <div class="avatar-circle">
-                        {{ auth()->user()->avatar_initials ?? 'AD' }}
+                        {{ auth()->user()->avatar_initials ?? 'VD' }}
                     </div>
-                    <span class="user-profile-name">{{ auth()->user()->name ?? 'Admin DPKP' }}</span>
+                    <span class="user-profile-name">{{ auth()->user()->name ?? 'Verifikator Disperwaskim' }}</span>
                 </div>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
@@ -81,7 +81,7 @@
             <!-- Top Header Bar -->
             <header class="top-header">
                 <div class="top-header-title">
-                    Dinas Perumahan, Kawasan Permukiman dan Pertanahan
+                    Dinas Perumahan Rakyat dan Kawasan Permukiman (Disperwaskim) Kota Tasikmalaya
                 </div>
                 <div class="top-header-right">
                     <a href="{{ route('notifikasi.index') }}" class="notification-bell-btn">
@@ -92,9 +92,9 @@
                     </a>
                     <div class="header-user-badge">
                         <div class="avatar-circle">
-                            {{ auth()->user()->avatar_initials ?? 'AD' }}
+                            {{ auth()->user()->avatar_initials ?? 'VD' }}
                         </div>
-                        <span class="header-user-name">{{ auth()->user()->name ?? 'Admin DPKP' }}</span>
+                        <span class="header-user-name">{{ auth()->user()->name ?? 'Verifikator Disperwaskim' }}</span>
                     </div>
                 </div>
             </header>

@@ -194,14 +194,14 @@
         <!-- PDF Rendered Viewport -->
         <div class="pdf-viewport">
             <div class="pdf-paper">
-                <div class="pdf-watermark">SATU RUMAH DPKP</div>
+                <div class="pdf-watermark">SATU RUMAH DISPERWASKIM</div>
 
                 <!-- Letterhead / Kop Resmi -->
                 <div style="border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
                     <div>
-                        <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #64748b; text-transform: uppercase;">PEMERINTAH KOTA SEMARANG</div>
-                        <div style="font-size: 14px; font-weight: 800; color: #0f172a;">DINAS PERUMAHAN, KAWASAN PERMUKIMAN DAN PERTANAHAN</div>
-                        <div style="font-size: 11px; color: #64748b;">Sistem Administrasi dan Verifikasi SATU RUMAH</div>
+                        <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #64748b; text-transform: uppercase;">PEMERINTAH KOTA TASIKMALAYA</div>
+                        <div style="font-size: 14px; font-weight: 800; color: #0f172a;">DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN</div>
+                        <div style="font-size: 11px; color: #64748b;">Sistem Administrasi Terpadu Urusan & Pengawasan Perumahan (SATU RUMAH)</div>
                     </div>
                     <div style="text-align: right;">
                         <span id="pdfPaperBadge" class="badge badge-green" style="font-size: 12px;">Sesuai</span>
@@ -213,7 +213,7 @@
                     <h2 id="pdfPaperTitle" style="font-size: 18px; font-weight: 800; text-transform: uppercase; color: #0f172a; margin-bottom: 4px;">
                         NIB DAN IZIN USAHA PENGEMBANG
                     </h2>
-                    <div style="font-size: 12px; color: #64748b;">Nomor Verifikasi: VER/SR-2025/08-0148/DPKP</div>
+                    <div style="font-size: 12px; color: #64748b;">Nomor Verifikasi: VER/SR-2026/09-0148/DISPERWASKIM</div>
                 </div>
 
                 <!-- Metadata Box -->
@@ -239,12 +239,12 @@
                 <!-- Document Content Simulation Lines -->
                 <div style="font-size: 13px; color: #334155; line-height: 1.8; margin-bottom: 32px;">
                     <p style="margin-bottom: 12px;">
-                        Dengan ini diterangkan bahwa berkas dokumen digital terlampir telah diunggah ke dalam portal SATU RUMAH Panel DPKP dan diverifikasi kesesuaian data izin operasional, kesesuaian site plan teknis, dan kelengkapan perizinan berusaha berbasis risiko.
+                        Dengan ini diterangkan bahwa berkas dokumen digital terlampir telah diunggah ke dalam portal SATU RUMAH Disperwaskim Kota Tasikmalaya dan diverifikasi kesesuaian data izin operasional, kesesuaian site plan teknis, dan kelengkapan perizinan berusaha berbasis risiko.
                     </p>
                     <p style="margin-bottom: 12px;">
-                        Kesesuaian berkas ini menjadi dasar kelayakan administrasi perizinan sebelum dilanjutkan ke tahap <strong>Survey dan Monitoring Lapangan</strong> oleh Petugas Perwaskim DPKP.
+                        Kesesuaian berkas ini menjadi dasar kelayakan administrasi perizinan sebelum dilanjutkan ke tahap <strong>Survey dan Monitoring Lapangan</strong> oleh Tim Petugas Perwaskim Disperwaskim.
                     </p>
-                    <div style="border-left: 3px solid #2563eb; padding-left: 12px; background-color: #f0f9ff; padding: 10px 14px; border-radius: 4px; font-size: 12px;">
+                    <div style="border-left: 3px solid #B92216; padding-left: 12px; background-color: #f0f9ff; padding: 10px 14px; border-radius: 4px; font-size: 12px;">
                         <strong>Catatan Verifikator:</strong> <span id="pdfPaperNotes">Berkas telah diperiksa dan dinyatakan sah serta memenuhi standar Perda tata ruang.</span>
                     </div>
                 </div>
@@ -253,10 +253,10 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 48px; border-top: 1px dashed #cbd5e1; padding-top: 24px;">
                     <div style="font-size: 11px; color: #64748b;">
                         <div>Keamanan Dokumen: <strong>SHA-256 Validated</strong></div>
-                        <div>ID Dokumen: <span style="font-family: monospace;">DOC-SR2025-08148-OK</span></div>
+                        <div>ID Dokumen: <span style="font-family: monospace;">DOC-SR2026-09148-OK</span></div>
                     </div>
                     <div style="text-align: center; border: 2px solid #16a34a; border-radius: 8px; padding: 8px 16px; color: #16a34a;">
-                        <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.5px;">DPKP KOTA SEMARANG</div>
+                        <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.5px;">DISPERWASKIM KOTA TASIKMALAYA</div>
                         <div style="font-size: 14px; font-weight: 800;">DIVERIFIKASI DIGITAL</div>
                         <div style="font-size: 9px;">SISTEM SATU RUMAH</div>
                     </div>

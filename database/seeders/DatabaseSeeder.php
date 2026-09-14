@@ -16,14 +16,24 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Create Admin User
+        // 1. Create Verifikator Disperwaskim & Surveyor Users
         User::updateOrCreate(
             ['email' => 'admin@saturumah.go.id'],
             [
-                'name' => 'Admin DPKP',
+                'name' => 'Verifikator Disperwaskim',
                 'password' => Hash::make('password'),
-                'role' => 'admin_dpkp',
-                'avatar_initials' => 'AD',
+                'role' => 'verifikator',
+                'avatar_initials' => 'VD',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'verifikator@saturumah.go.id'],
+            [
+                'name' => 'Verifikator Disperwaskim',
+                'password' => Hash::make('password'),
+                'role' => 'verifikator',
+                'avatar_initials' => 'VD',
             ]
         );
 

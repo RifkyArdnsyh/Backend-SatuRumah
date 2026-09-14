@@ -8,7 +8,7 @@
     <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
         <div>
             <h2 class="page-title" style="font-size: 20px;">1. Penjadwalan & Survey Lapangan</h2>
-            <p class="page-subtitle">Pemeriksaan fisik lokasi perumahan oleh tim Petugas Perwaskim DPKP.</p>
+            <p class="page-subtitle">Pemeriksaan fisik lokasi perumahan oleh tim Petugas Perwaskim Disperwaskim.</p>
         </div>
         <div>
             @if($pengajuan->activeSurvey)
@@ -106,7 +106,7 @@
                                 Selasa, 20 Mei 2025 &middot; 09.00 WIB
                             </div>
                             <div style="color: var(--text-muted); font-size: 12px; margin-top: 2px;">
-                                Dijadwalkan oleh Admin DPKP &middot; diganti pada 14 Mei 2025
+                                Dijadwalkan oleh Verifikator Disperwaskim &middot; diganti pada 14 Mei 2025
                             </div>
                         </div>
                     </div>

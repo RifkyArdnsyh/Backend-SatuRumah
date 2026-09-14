@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Notifikasi - SATU RUMAH Panel Admin DPKP')
+@section('title', 'Notifikasi - SATU RUMAH Portal Verifikator Disperwaskim')
 
 @section('content')
 <div style="margin-bottom: 24px; display: flex; align-items: flex-start; justify-content: space-between;">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SATU RUMAH Panel Admin DPKP</title>
+    <title>Login - SATU RUMAH Portal Verifikator Disperwaskim</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <style>
@@ -29,7 +29,7 @@
         .login-logo {
             width: 56px;
             height: 56px;
-            background: #2563eb;
+            background: #B92216;
             color: #ffffff;
             border-radius: 12px;
             display: inline-flex;
@@ -56,7 +56,8 @@
         <div class="login-header">
             <div class="login-logo">SR</div>
             <h1 class="login-title">SATU RUMAH</h1>
-            <p class="login-subtitle">PANEL ADMIN DPKP</p>
+            <p class="login-subtitle">PORTAL VERIFIKATOR DISPERWASKIM</p>
+            <p style="font-size: 11px; color: #94a3b8; margin-top: 2px;">Pemerintah Kota Tasikmalaya</p>
         </div>
 
         @if($errors->any())

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard - SATU RUMAH Panel Admin DPKP')
+@section('title', 'Dashboard - SATU RUMAH Portal Verifikator Disperwaskim')
 
 @section('content')
 <div style="margin-bottom: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
@@ -45,7 +45,7 @@
     <div class="card-header">
         <div>
             <h2 class="card-title">Antrean Pengajuan</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Menampilkan pengajuan aktif yang tersedia untuk Admin DPKP.</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Menampilkan pengajuan aktif yang tersedia untuk Verifikator Disperwaskim.</p>
         </div>
         <a href="{{ route('dashboard.export') }}" class="btn btn-outline">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>

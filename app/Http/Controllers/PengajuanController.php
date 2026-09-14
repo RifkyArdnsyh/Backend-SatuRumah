@@ -112,7 +112,7 @@ class PengajuanController extends Controller
             'pengajuan_id' => $pengajuan->id,
             'judul' => 'Status Pengajuan Diperbarui',
             'deskripsi' => "Status berubah dari '{$statusLama}' menjadi '{$pengajuan->status}'.",
-            'oleh' => auth()->user()->name ?? 'Admin DPKP',
+            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
             'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
         ]);
 

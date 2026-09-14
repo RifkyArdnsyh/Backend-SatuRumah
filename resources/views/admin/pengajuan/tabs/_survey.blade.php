@@ -91,7 +91,7 @@
                                 Selasa, {{ $oldSurvey->tanggal_survey }} &middot; {{ $oldSurvey->jam_survey }}
                             </div>
                             <div style="color: var(--text-muted); font-size: 12px; margin-top: 2px;">
-                                Dijadwalkan oleh Admin DPKP &middot; diganti pada 14 Mei 2025
+                                Dijadwalkan oleh Verifikator Disperwaskim &middot; diganti pada 14 Mei 2025
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                 Selasa, 20 Mei 2025 &middot; 09.00 WIB
                             </div>
                             <div style="color: var(--text-muted); font-size: 12px; margin-top: 2px;">
-                                Dijadwalkan oleh Admin DPKP &middot; diganti pada 14 Mei 2025
+                                Dijadwalkan oleh Verifikator Disperwaskim &middot; diganti pada 14 Mei 2025
                             </div>
                         </div>
                     </div>
