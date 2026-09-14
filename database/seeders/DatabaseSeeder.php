@@ -50,12 +50,12 @@ class DatabaseSeeder extends Seeder
         // 2. Create Submissions (Pengajuan)
         $p1 = Pengajuan::create([
             'id' => 'SR-2025-0148',
-            'nama_pengembang' => 'PT Citra Hunian Lestari',
-            'nama_perumahan' => 'Griya Mahardika Residence',
-            'lokasi' => 'Kec. Banyumanik, Kota Semarang',
+            'nama_pengembang' => 'PT Citra Tasik Mandiri',
+            'nama_perumahan' => 'Griya Mangkubumi Asri',
+            'lokasi' => 'Kec. Mangkubumi, Kota Tasikmalaya',
             'jumlah_unit' => '148 unit rumah tapak',
             'luas_kawasan' => '34.800 m²',
-            'penanggung_jawab' => 'Budi Santoso, S.T.',
+            'penanggung_jawab' => 'H. Asep Hendrayana, S.T.',
             'tahap' => 'Verifikasi teknis',
             'status' => 'Perlu perbaikan',
             'catatan_status' => 'Terdapat 3 dokumen yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.',
@@ -64,12 +64,12 @@ class DatabaseSeeder extends Seeder
 
         $p2 = Pengajuan::create([
             'id' => 'SR-2025-0147',
-            'nama_pengembang' => 'PT Karya Pertiwi',
-            'nama_perumahan' => 'Taman Kencana Asri',
-            'lokasi' => 'Kec. Ngaliyan, Kota Semarang',
+            'nama_pengembang' => 'PT Sukapura Mandiri Properti',
+            'nama_perumahan' => 'Kencana Kawalu Regency',
+            'lokasi' => 'Kec. Kawalu, Kota Tasikmalaya',
             'jumlah_unit' => '85 unit rumah tapak',
             'luas_kawasan' => '18.500 m²',
-            'penanggung_jawab' => 'Siti Nurhaliza, S.T.',
+            'penanggung_jawab' => 'Dedi Setiadi, S.T.',
             'tahap' => 'Survey',
             'status' => 'Terjadwal',
             'catatan_status' => 'Jadwal survey lokasi telah dikonfirmasi untuk tanggal 20 Mei 2025.',
@@ -78,12 +78,12 @@ class DatabaseSeeder extends Seeder
 
         $p3 = Pengajuan::create([
             'id' => 'SR-2025-0146',
-            'nama_pengembang' => 'CV Bumi Sejahtera',
-            'nama_perumahan' => 'Bukit Pinus Estate',
-            'lokasi' => 'Kec. Tembalang, Kota Semarang',
-            'jumlah_unit' => '210 unit rumah tapak',
-            'luas_kawasan' => '45.000 m²',
-            'penanggung_jawab' => 'Hendra Wijaya, S.T.',
+            'nama_pengembang' => 'PT Priangan Griya Graha',
+            'nama_perumahan' => 'Pesona Cibeureum Pratama',
+            'lokasi' => 'Kec. Cibeureum, Kota Tasikmalaya',
+            'jumlah_unit' => '120 unit rumah tapak',
+            'luas_kawasan' => '26.000 m²',
+            'penanggung_jawab' => 'Ir. Tatan Rustandi',
             'tahap' => 'Dokumen',
             'status' => 'Menunggu verifikasi',
             'catatan_status' => 'Dokumen persyaratan lengkap dan siap diperiksa tim administratif.',
@@ -92,12 +92,12 @@ class DatabaseSeeder extends Seeder
 
         $p4 = Pengajuan::create([
             'id' => 'SR-2025-0145',
-            'nama_pengembang' => 'PT Artha Graha Mandiri',
-            'nama_perumahan' => 'Puri Cendana',
-            'lokasi' => 'Kec. Gunungpati, Kota Semarang',
-            'jumlah_unit' => '95 unit rumah tapak',
-            'luas_kawasan' => '22.400 m²',
-            'penanggung_jawab' => 'Dwi Prasetyo, S.T.',
+            'nama_pengembang' => 'PT Galunggung Asri Propertindo',
+            'nama_perumahan' => 'Bungursari Harmoni Indah',
+            'lokasi' => 'Kec. Bungursari, Kota Tasikmalaya',
+            'jumlah_unit' => '96 unit rumah tapak',
+            'luas_kawasan' => '21.200 m²',
+            'penanggung_jawab' => 'Yudi Permana, S.T.',
             'tahap' => 'Monitoring',
             'status' => 'Final',
             'catatan_status' => 'Hasil monitoring lapangan telah berstatus Final.',
@@ -106,28 +106,42 @@ class DatabaseSeeder extends Seeder
 
         $p5 = Pengajuan::create([
             'id' => 'SR-2025-0144',
-            'nama_pengembang' => 'PT Sentosa Karya',
-            'nama_perumahan' => 'Citra Gading Park',
-            'lokasi' => 'Kec. Mijen, Kota Semarang',
+            'nama_pengembang' => 'PT Mitra Sejahtera Tasik',
+            'nama_perumahan' => 'Tamansari Asri Residence',
+            'lokasi' => 'Kec. Tamansari, Kota Tasikmalaya',
             'jumlah_unit' => '160 unit rumah tapak',
             'luas_kawasan' => '38.000 m²',
-            'penanggung_jawab' => 'Agus Setiawan, S.T.',
+            'penanggung_jawab' => 'Ahmad Fauzi, S.T.',
             'tahap' => 'Persetujuan',
             'status' => 'Siap disetujui',
             'catatan_status' => 'Seluruh tahapan verifikasi teknis dan monitoring telah terpenuhi.',
             'diajukan_pada' => '10 Mei 2025',
         ]);
 
+        $kecamatanTasik = [
+            'Kec. Mangkubumi, Kota Tasikmalaya',
+            'Kec. Kawalu, Kota Tasikmalaya',
+            'Kec. Cibeureum, Kota Tasikmalaya',
+            'Kec. Tamansari, Kota Tasikmalaya',
+            'Kec. Bungursari, Kota Tasikmalaya',
+            'Kec. Indihiang, Kota Tasikmalaya',
+            'Kec. Purbaratu, Kota Tasikmalaya',
+            'Kec. Cihideung, Kota Tasikmalaya',
+            'Kec. Cipedes, Kota Tasikmalaya',
+            'Kec. Tawang, Kota Tasikmalaya',
+        ];
+
         // Seed 37 additional dummy items for pagination demo (Total 42)
         for ($i = 143; $i >= 107; $i--) {
+            $prefix = ['Griya ', 'Pesona ', 'Cluster ', 'Puri ', 'Taman '][rand(0, 4)];
             Pengajuan::create([
                 'id' => "SR-2025-0{$i}",
-                'nama_pengembang' => "PT Developer Mitra {$i}",
-                'nama_perumahan' => "Perumahan Indah Block {$i}",
-                'lokasi' => "Kota Semarang",
+                'nama_pengembang' => "PT Pengembang Mitra Tasik {$i}",
+                'nama_perumahan' => "{$prefix}Tasik Indah {$i}",
+                'lokasi' => $kecamatanTasik[rand(0, count($kecamatanTasik) - 1)],
                 'jumlah_unit' => rand(50, 200) . " unit",
                 'luas_kawasan' => rand(10, 50) . ".000 m²",
-                'penanggung_jawab' => "Penanggung Jawab {$i}",
+                'penanggung_jawab' => "Penanggung Jawab {$i}, S.T.",
                 'tahap' => ['Dokumen', 'Verifikasi teknis', 'Survey', 'Monitoring', 'Persetujuan'][rand(0, 4)],
                 'status' => ['Menunggu verifikasi', 'Perlu perbaikan', 'Terjadwal', 'Draft', 'Final', 'Siap disetujui'][rand(0, 5)],
                 'catatan_status' => 'Pengajuan dalam proses verifikasi reguler.',
@@ -234,12 +248,12 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // 6. Riwayat for SR-2025-0148 (Exact matching user mockup Image 2)
+        // 6. Riwayat for SR-2025-0148
         RiwayatPengajuan::create([
             'pengajuan_id' => 'SR-2025-0148',
             'judul' => '14 Mei 2025 · 10.42',
-            'deskripsi' => 'Admin DPKP mengirim permintaan perbaikan untuk 3 dokumen.',
-            'oleh' => 'Admin DPKP',
+            'deskripsi' => 'Verifikator Disperwaskim mengirim permintaan perbaikan untuk 3 dokumen.',
+            'oleh' => 'Verifikator Disperwaskim',
             'tanggal' => '14 Mei 2025 · 10.42',
         ]);
 
@@ -247,23 +261,23 @@ class DatabaseSeeder extends Seeder
             'pengajuan_id' => 'SR-2025-0148',
             'judul' => '13 Mei 2025 · 15.10',
             'deskripsi' => 'Pengembang mengunggah versi 2 KTP Direktur Utama. Versi 1 tetap tersimpan.',
-            'oleh' => 'PT Citra Hunian Lestari',
+            'oleh' => 'PT Citra Tasik Mandiri',
             'tanggal' => '13 Mei 2025 · 15.10',
         ]);
 
         RiwayatPengajuan::create([
             'pengajuan_id' => 'SR-2025-0148',
             'judul' => '08 Mei 2025 · 09.21',
-            'deskripsi' => 'Pengajuan baru dibuat oleh PT Citra Hunian Lestari.',
-            'oleh' => 'PT Citra Hunian Lestari',
+            'deskripsi' => 'Pengajuan baru dibuat oleh PT Citra Tasik Mandiri.',
+            'oleh' => 'PT Citra Tasik Mandiri',
             'tanggal' => '08 Mei 2025 · 09.21',
         ]);
 
-        // 7. Notifikasi (Exact matching user mockup Image 1)
+        // 7. Notifikasi
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0148',
             'judul' => 'Pengajuan baru',
-            'pesan' => 'Griya Mahardika Residence',
+            'pesan' => 'Griya Mangkubumi Asri',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now(),
@@ -272,7 +286,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0144',
             'judul' => 'Permintaan perbaikan telah terkirim',
-            'pesan' => 'Citra Gading Park',
+            'pesan' => 'Tamansari Asri Residence',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now()->subHours(2),
@@ -281,7 +295,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0146',
             'judul' => 'Survey ditugaskan',
-            'pesan' => 'Bukit Pinus Estate',
+            'pesan' => 'Pesona Cibeureum Pratama',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now()->subHours(4),

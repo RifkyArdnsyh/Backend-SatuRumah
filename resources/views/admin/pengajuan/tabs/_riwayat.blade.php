@@ -58,7 +58,7 @@
                             08 Mei 2025 &middot; 09.21
                         </div>
                         <div style="font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.5;">
-                            Pengajuan baru dibuat oleh PT Citra Hunian Lestari.
+                            Pengajuan baru dibuat oleh PT Citra Tasik Mandiri.
                         </div>
                     </div>
                 </div>

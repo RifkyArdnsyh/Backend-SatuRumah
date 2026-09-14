@@ -220,11 +220,11 @@
                 <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 24px; font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div>
                         <span style="color: #64748b; font-size: 11px; display: block;">NAMA PERUMAHAN</span>
-                        <strong id="pdfPaperHousing">Griya Mahardika Residence</strong>
+                        <strong id="pdfPaperHousing">Griya Mangkubumi Asri</strong>
                     </div>
                     <div>
                         <span style="color: #64748b; font-size: 11px; display: block;">PENGEMBANG</span>
-                        <strong id="pdfPaperDeveloper">PT Citra Hunian Lestari</strong>
+                        <strong id="pdfPaperDeveloper">PT Citra Tasik Mandiri</strong>
                     </div>
                     <div>
                         <span style="color: #64748b; font-size: 11px; display: block;">NAMA FILE BERKAS</span>
@@ -340,8 +340,8 @@
         document.getElementById('pdfViewerDocSubtitle').innerText = doc.nama_file + ' · ' + (doc.ukuran_file || '1.0 MB');
         
         document.getElementById('pdfPaperTitle').innerText = doc.nama_persyaratan;
-        document.getElementById('pdfPaperHousing').innerText = housingName || 'Griya Mahardika Residence';
-        document.getElementById('pdfPaperDeveloper').innerText = devName || 'PT Citra Hunian Lestari';
+        document.getElementById('pdfPaperHousing').innerText = housingName || 'Griya Mangkubumi Asri';
+        document.getElementById('pdfPaperDeveloper').innerText = devName || 'PT Citra Tasik Mandiri';
         document.getElementById('pdfPaperFilename').innerText = doc.nama_file;
         document.getElementById('pdfPaperMeta').innerText = (doc.tanggal_unggah || '08 Mei 2025') + ' · ' + (doc.ukuran_file || '1.0 MB');
         document.getElementById('pdfPaperNotes').innerText = doc.catatan || 'Berkas telah sesuai dengan ketentuan teknis yang dipersyaratkan.';
