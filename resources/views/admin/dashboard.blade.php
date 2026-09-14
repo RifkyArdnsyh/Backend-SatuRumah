@@ -41,7 +41,7 @@
 </div>
 
 <!-- Antrean Pengajuan Card -->
-<div class="card">
+<div class="card" id="antrean-pengajuan">
     <div class="card-header">
         <div>
             <h2 class="card-title">Antrean Pengajuan</h2>
