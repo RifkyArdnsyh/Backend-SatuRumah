@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#B92216"/>
+  <!-- Atap & Lambang Pemerintahan / Perumahan -->
+  <path d="M16 4L4 12H28L16 4Z" fill="#F8B803"/>
+  <rect x="7" y="13" width="3" height="11" fill="#FFFFFF"/>
+  <rect x="12" y="13" width="3" height="11" fill="#FFFFFF"/>
+  <rect x="17" y="13" width="3" height="11" fill="#FFFFFF"/>
+  <rect x="22" y="13" width="3" height="11" fill="#FFFFFF"/>
+  <rect x="4" y="24" width="24" height="3" fill="#F8B803"/>
+  <!-- Tunas/Aksen Permukiman Asri -->
+  <circle cx="16" cy="18.5" r="2.5" fill="#B7C688"/>
+</svg>
