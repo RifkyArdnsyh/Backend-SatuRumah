@@ -19,6 +19,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\View::composer('layouts.admin', function ($view) {
+            try {
+                $unreadCount = \App\Models\Notifikasi::where('is_read', false)->count();
+            } catch (\Throwable $e) {
+                $unreadCount = 0;
+            }
+            $view->with('unreadCount', $unreadCount);
+        });
     }
 }

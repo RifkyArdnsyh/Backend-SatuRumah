@@ -9,14 +9,14 @@
             <span class="breadcrumb-current">Dashboard</span>
         </div>
         <h1 class="page-title">Dashboard</h1>
-        <p class="page-subtitle">Ringkasan pengajuan izin perumahan yang perlu ditangani.</p>
+        <p class="page-subtitle">Ringkasan situasi pengajuan izin perumahan hari ini.</p>
     </div>
     <div style="font-size: 13px; color: var(--text-muted); text-align: right; padding-top: 24px;">
         Terakhir diperbarui: {{ date('d M Y, H.i') }} WIB
     </div>
 </div>
 
-<!-- 4 Stat Cards Grid -->
+{{-- 4 Stat Cards --}}
 <div class="stat-cards-grid">
     <div class="stat-card">
         <div class="stat-number">{{ $stats['pengajuan_baru'] }}</div>
@@ -40,52 +40,22 @@
     </div>
 </div>
 
-<!-- Antrean Pengajuan Card -->
-<div class="card" id="antrean-pengajuan">
+{{-- Tabel 5 Pengajuan Terbaru --}}
+<div class="card" style="margin-top: 28px;">
     <div class="card-header">
         <div>
-            <h2 class="card-title">Antrean Pengajuan</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Menampilkan pengajuan aktif yang tersedia untuk Verifikator Disperwaskim.</p>
+            <h2 class="card-title">5 Pengajuan Terbaru</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                Pengajuan yang baru masuk dan membutuhkan perhatian segera.
+            </p>
         </div>
         <a href="{{ route('dashboard.export') }}" class="btn btn-outline">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-            Ekspor
+            Ekspor CSV
         </a>
     </div>
 
     <div class="card-body">
-        <!-- Controls Filter Bar -->
-        <form method="GET" action="{{ route('dashboard') }}" class="controls-bar">
-            <div class="search-input-wrapper">
-                <span class="search-icon">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </span>
-                <input type="text" name="search" class="input-control" placeholder="Cari ID, pengembang, atau perumahan" value="{{ request('search') }}" onchange="this.form.submit()">
-            </div>
-
-            <div style="display: flex; gap: 12px;">
-                <select name="tahap" class="select-control" onchange="this.form.submit()">
-                    <option value="semua" {{ request('tahap') == 'semua' ? 'selected' : '' }}>Semua tahap</option>
-                    <option value="Dokumen" {{ request('tahap') == 'Dokumen' ? 'selected' : '' }}>Dokumen</option>
-                    <option value="Verifikasi teknis" {{ request('tahap') == 'Verifikasi teknis' ? 'selected' : '' }}>Verifikasi teknis</option>
-                    <option value="Survey" {{ request('tahap') == 'Survey' ? 'selected' : '' }}>Survey</option>
-                    <option value="Monitoring" {{ request('tahap') == 'Monitoring' ? 'selected' : '' }}>Monitoring</option>
-                    <option value="Persetujuan" {{ request('tahap') == 'Persetujuan' ? 'selected' : '' }}>Persetujuan</option>
-                </select>
-
-                <select name="status" class="select-control" onchange="this.form.submit()">
-                    <option value="semua" {{ request('status') == 'semua' ? 'selected' : '' }}>Semua status</option>
-                    <option value="Menunggu verifikasi" {{ request('status') == 'Menunggu verifikasi' ? 'selected' : '' }}>Menunggu verifikasi</option>
-                    <option value="Perlu perbaikan" {{ request('status') == 'Perlu perbaikan' ? 'selected' : '' }}>Perlu perbaikan</option>
-                    <option value="Terjadwal" {{ request('status') == 'Terjadwal' ? 'selected' : '' }}>Terjadwal</option>
-                    <option value="Draft" {{ request('status') == 'Draft' ? 'selected' : '' }}>Draft</option>
-                    <option value="Final" {{ request('status') == 'Final' ? 'selected' : '' }}>Final</option>
-                    <option value="Siap disetujui" {{ request('status') == 'Siap disetujui' ? 'selected' : '' }}>Siap disetujui</option>
-                </select>
-            </div>
-        </form>
-
-        <!-- Data Table -->
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -102,10 +72,17 @@
                 <tbody>
                     @forelse($pengajuans as $item)
                         <tr>
-                            <td style="font-weight: 700;">{{ $item->id }}</td>
+                            <td style="font-weight: 700; font-size: 12px; letter-spacing: 0.3px; color: var(--primary);">
+                                {{ $item->id }}
+                            </td>
                             <td>{{ $item->nama_pengembang }}</td>
                             <td style="font-weight: 600;">{{ $item->nama_perumahan }}</td>
-                            <td>{{ $item->tahap }}</td>
+                            <td>
+                                {{-- Badge TAHAP — seragam dengan halaman /pengajuan --}}
+                                <span style="font-size: 11px; padding: 3px 8px; background: #F0ECE4; border-radius: 6px; font-weight: 600; color: #5C4A32;">
+                                    {{ $item->tahap }}
+                                </span>
+                            </td>
                             <td>
                                 @if($item->status == 'Perlu perbaikan')
                                     <span class="badge badge-yellow">Perlu perbaikan</span>
@@ -113,23 +90,21 @@
                                     <span class="badge badge-blue">Terjadwal</span>
                                 @elseif($item->status == 'Menunggu verifikasi')
                                     <span class="badge badge-gray">Menunggu verifikasi</span>
-                                @elseif($item->status == 'Final')
-                                    <span class="badge badge-green">Final</span>
-                                @elseif($item->status == 'Siap disetujui')
-                                    <span class="badge badge-green">Siap disetujui</span>
+                                @elseif(in_array($item->status, ['Final', 'Selesai', 'Siap disetujui']))
+                                    <span class="badge badge-green">{{ $item->status }}</span>
                                 @else
                                     <span class="badge badge-gray">{{ $item->status }}</span>
                                 @endif
                             </td>
-                            <td style="color: var(--text-muted);">{{ $item->diajukan_pada }}</td>
+                            <td style="color: var(--text-muted); font-size: 12px;">{{ $item->diajukan_pada }}</td>
                             <td style="text-align: right;">
-                                <a href="{{ route('pengajuan.show', $item->id) }}" class="table-link">Buka</a>
+                                <a href="{{ route('pengajuan.show', $item->id) }}" class="table-link">Buka →</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="7" style="text-align: center; padding: 32px; color: var(--text-muted);">
-                                Tidak ada pengajuan yang sesuai dengan filter.
+                                Belum ada pengajuan yang masuk.
                             </td>
                         </tr>
                     @endforelse
@@ -138,28 +113,21 @@
         </div>
     </div>
 
-    <!-- Pagination Footer -->
-    <div class="pagination-wrapper">
-        <div>
-            Menampilkan {{ $pengajuans->firstItem() ?? 0 }}-{{ $pengajuans->lastItem() ?? 0 }} dari {{ $pengajuans->total() }} pengajuan
+    {{-- Footer: info + Lihat Semua --}}
+    <div class="pagination-wrapper" style="justify-content: space-between; align-items: center;">
+        <div style="color: var(--text-muted); font-size: 13px;">
+            Menampilkan <strong>{{ $pengajuans->count() }} pengajuan terbaru</strong>
+            dari total <strong>{{ $pengajuans->total() }}</strong> yang masuk.
         </div>
-        <div class="pagination-pages">
-            @if($pengajuans->onFirstPage())
-                <span class="page-btn btn-disabled">&lt;</span>
-            @else
-                <a href="{{ $pengajuans->previousPageUrl() }}" class="page-btn">&lt;</a>
-            @endif
-
-            @foreach($pengajuans->getUrlRange(1, min(3, $pengajuans->lastPage())) as $page => $url)
-                <a href="{{ $url }}" class="page-btn {{ $page == $pengajuans->currentPage() ? 'active' : '' }}">{{ $page }}</a>
-            @endforeach
-
-            @if($pengajuans->hasMorePages())
-                <a href="{{ $pengajuans->nextPageUrl() }}" class="page-btn">&gt;</a>
-            @else
-                <span class="page-btn btn-disabled">&gt;</span>
-            @endif
-        </div>
+        <a href="{{ route('pengajuan.index') }}"
+           style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; padding: 8px 16px; border: 1.5px solid var(--primary); border-radius: 8px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='var(--primary)'; this.style.color='white';"
+           onmouseout="this.style.background='transparent'; this.style.color='var(--primary)';">
+            Lihat Semua Pengajuan
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+            </svg>
+        </a>
     </div>
 </div>
 @endsection

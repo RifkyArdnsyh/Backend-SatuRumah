@@ -10,6 +10,46 @@ use Illuminate\Http\Request;
 
 class PengajuanController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Pengajuan::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhere('nama_pengembang', 'like', "%{$search}%")
+                  ->orWhere('nama_perumahan', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('tahap') && $request->tahap !== 'semua') {
+            $query->where('tahap', $request->tahap);
+        }
+
+        if ($request->filled('status') && $request->status !== 'semua') {
+            $query->where('status', $request->status);
+        }
+
+        $pengajuans = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+
+        $totalSemua   = Pengajuan::count();
+        $totalAktif   = Pengajuan::whereNotIn('status', ['Selesai', 'Ditolak'])->count();
+        $totalMenunggu = Pengajuan::where('status', 'Menunggu verifikasi')->count();
+        $totalPerlu    = Pengajuan::where('status', 'Perlu perbaikan')->count();
+
+        $unreadCount = \App\Models\Notifikasi::where('is_read', false)->count();
+
+        return view('admin.pengajuan.index', compact(
+            'pengajuans',
+            'totalSemua',
+            'totalAktif',
+            'totalMenunggu',
+            'totalPerlu',
+            'unreadCount',
+        ));
+    }
+
     public function show(Request $request, $id)
     {
         $pengajuan = Pengajuan::with([

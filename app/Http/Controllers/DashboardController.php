@@ -11,42 +11,22 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pengajuan::query();
+        // Dashboard hanya tampilkan 5 pengajuan terbaru — tanpa filter
+        $pengajuans = Pengajuan::orderBy('created_at', 'desc')->paginate(5);
 
-        // Search filter
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('id', 'like', "%{$search}%")
-                  ->orWhere('nama_pengembang', 'like', "%{$search}%")
-                  ->orWhere('nama_perumahan', 'like', "%{$search}%");
-            });
-        }
-
-        // Tahap filter
-        if ($request->filled('tahap') && $request->tahap !== 'semua') {
-            $query->where('tahap', $request->tahap);
-        }
-
-        // Status filter
-        if ($request->filled('status') && $request->status !== 'semua') {
-            $query->where('status', $request->status);
-        }
-
-        $pengajuans = $query->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
-
-        // Statistics Cards (Matching mockup counts)
+        // Statistik ringkas
         $stats = [
-            'pengajuan_baru' => 18,
-            'verifikasi_teknis' => 12,
-            'survey_terjadwal' => 7,
-            'perlu_tindak_lanjut' => 5,
+            'pengajuan_baru'       => 18,
+            'verifikasi_teknis'    => 12,
+            'survey_terjadwal'     => 7,
+            'perlu_tindak_lanjut'  => 5,
         ];
 
         $unreadCount = Notifikasi::where('is_read', false)->count();
 
         return view('admin.dashboard', compact('pengajuans', 'stats', 'unreadCount'));
     }
+
 
     public function exportCsv()
     {

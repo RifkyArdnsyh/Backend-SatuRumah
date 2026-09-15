@@ -17,45 +17,54 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo-icon">SR</div>
+                <div class="sidebar-logo-icon" style="background: linear-gradient(135deg, #B92216 0%, #8C140A 100%); box-shadow: 0 2px 8px rgba(185, 34, 22, 0.35);">
+                    <!-- Lambang Instansi: Bangunan Pemerintahan / Perumahan Rakyat & Tunas -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pilar/Struktur Pemerintahan & Atap Rumah -->
+                        <path d="M12 2L2 8H22L12 2Z" fill="#F8B803"/>
+                        <path d="M4 9V18H6V9H4ZM9 9V18H11V9H9ZM13 9V18H15V9H13ZM18 9V18H20V9H18Z" fill="#ffffff" fill-opacity="0.95"/>
+                        <path d="M2 19V21H22V19H2Z" fill="#F8B803"/>
+                        <!-- Daun/Pucuk Hijau Melambangkan Kawasan Permukiman Asri -->
+                        <circle cx="12" cy="13.5" r="2" fill="#B7C688"/>
+                    </svg>
+                </div>
                 <div class="sidebar-logo-text">
                     <span class="sidebar-logo-title">SATU RUMAH</span>
-                    <span class="sidebar-logo-subtitle">PORTAL VERIFIKATOR DISPERWASKIM</span>
+                    <span class="sidebar-logo-subtitle">DISPERWASKIM KOTA TASIKMALAYA</span>
                 </div>
             </div>
 
             <div class="sidebar-menu-label">MENU UTAMA</div>
 
             <nav class="sidebar-nav">
+                <!-- Metafora 1: Dashboard -> Rumah / Beranda Induk (HQ Home) -->
                 <a href="{{ route('dashboard') }}" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <span class="icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
                     </span>
                     Dashboard
                 </a>
 
-                <a href="{{ route('dashboard') }}#antrean-pengajuan" class="nav-item">
+                <!-- Metafora 2: Antrean Pengajuan -> Baki Berkas Masuk Bertumpuk (Inbox Tray / Layered Queue) -->
+                <a href="{{ route('pengajuan.index') }}" class="nav-item {{ request()->routeIs('pengajuan.index') ? 'active' : '' }}">
                     <span class="icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
                     </span>
                     Antrean Pengajuan
                 </a>
 
+                <!-- Metafora 3: Pengajuan -> Papan Klip Verifikasi / Audit Berkas (Verification Clipboard Checklist) -->
                 <a href="{{ route('pengajuan.show', 'SR-2025-0148') }}" class="nav-item {{ request()->routeIs('pengajuan.show') ? 'active' : '' }}">
                     <span class="icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        </svg>
                     </span>
                     Pengajuan
-                </a>
-
-                <a href="{{ route('notifikasi.index') }}" class="nav-item {{ request()->routeIs('notifikasi.index') ? 'active' : '' }}">
-                    <span class="icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                    </span>
-                    Notifikasi
-                    @if(isset($unreadCount) && $unreadCount > 0)
-                        <span class="nav-badge">{{ $unreadCount }}</span>
-                    @endif
                 </a>
             </nav>
 
@@ -68,8 +77,11 @@
                 </div>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
+                    <!-- Metafora 5: Logout -> Pintu Terbuka dengan Arah Keluar (Exit Door) -->
                     <button type="submit" class="logout-btn">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
                         Keluar
                     </button>
                 </form>
@@ -84,8 +96,11 @@
                     Dinas Perumahan Rakyat dan Kawasan Permukiman (Disperwaskim) Kota Tasikmalaya
                 </div>
                 <div class="top-header-right">
-                    <a href="{{ route('notifikasi.index') }}" class="notification-bell-btn">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <!-- Metafora 4: Notifikasi -> Lonceng Berdering (Ringing Chime Bell) -->
+                    <a href="{{ route('notifikasi.index') }}" class="notification-bell-btn" title="Notifikasi Verifikasi">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
                         @if(isset($unreadCount) && $unreadCount > 0)
                             <span class="bell-dot"></span>
                         @endif
