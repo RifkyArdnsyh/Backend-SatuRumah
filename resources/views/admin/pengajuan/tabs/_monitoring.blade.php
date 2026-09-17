@@ -263,11 +263,11 @@
                     <input type="hidden" name="action" value="persetujuan">
                     @if($isFinal)
                         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
-                            Lanjutkan Persetujuan &rarr;
+                            Lanjutkan Persetujuan
                         </button>
                     @else
                         <button type="button" class="btn btn-primary btn-disabled" style="width: 100%; padding: 12px; background-color: #cbd5e1; border-color: #cbd5e1;" disabled>
-                            Lanjutkan Persetujuan &rarr;
+                            Lanjutkan Persetujuan
                         </button>
                     @endif
                 </form>
