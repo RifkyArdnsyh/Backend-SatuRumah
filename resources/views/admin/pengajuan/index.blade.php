@@ -139,7 +139,7 @@
                             </td>
                             <td style="color: var(--text-muted); font-size: 12px;">{{ $item->diajukan_pada }}</td>
                             <td style="text-align: right;">
-                                <a href="{{ route('pengajuan.show', $item->id) }}" class="table-link">Buka →</a>
+                                <a href="{{ route('pengajuan.show', $item->id) }}" class="table-link">Buka</a>
                             </td>
                         </tr>
                     @empty
