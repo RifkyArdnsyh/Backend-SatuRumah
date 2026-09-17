@@ -149,65 +149,87 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 3. Documents for SR-2025-0148
-        $dokPerusahaan = [
-            ['NIB dan Izin Usaha', 'nib_dan_izin_usaha.pdf', '08 Mei 2025 · 0.8 MB', 'Sesuai', ''],
-            ['NPWP Perusahaan', 'npwp_perusahaan.pdf', '08 Mei 2025 · 1.0 MB', 'Belum diperiksa', ''],
-            ['Akta Pendirian Perusahaan', 'akta_pendirian_perusahaan.pdf', '08 Mei 2025 · 1.1 MB', 'Sesuai', ''],
-            ['KTP Direktur Utama', 'ktp_direktur_utama.pdf', '08 Mei 2025 · 1.3 MB', 'Perlu perbaikan', 'Scan KTP buram dan tanggal berlaku perlu dikonfirmasi.'],
-            ['Surat Kuasa Penanggung Jawab', 'surat_kuasa_penanggung_jawab.pdf', '08 Mei 2025 · 1.4 MB', 'Sesuai', ''],
+        // 3. Document Definitions Template
+        $dokPerusahaanTemplate = [
+            ['NIB dan Izin Usaha', 'nib_dan_izin_usaha.pdf', '0.8 MB'],
+            ['NPWP Perusahaan', 'npwp_perusahaan.pdf', '1.0 MB'],
+            ['Akta Pendirian Perusahaan', 'akta_pendirian_perusahaan.pdf', '1.1 MB'],
+            ['KTP Direktur Utama', 'ktp_direktur_utama.pdf', '1.3 MB'],
+            ['Surat Kuasa Penanggung Jawab', 'surat_kuasa_penanggung_jawab.pdf', '1.4 MB'],
         ];
 
-        foreach ($dokPerusahaan as $d) {
-            DokumenPengajuan::create([
-                'pengajuan_id' => 'SR-2025-0148',
-                'kategori' => 'perusahaan',
-                'nama_persyaratan' => $d[0],
-                'nama_file' => $d[1],
-                'ukuran_file' => $d[2],
-                'tanggal_unggah' => '08 Mei 2025',
-                'status' => $d[3],
-                'catatan' => $d[4],
-            ]);
-        }
-
-        $dokPerumahan = [
-            ['Site Plan yang Disahkan', 'site_plan_yang_disahkan.pdf', '08 Mei 2025 · 0.8 MB', 'Sesuai', ''],
-            ['Bukti Kepemilikan Tanah', 'bukti_kepemilikan_tanah.pdf', '08 Mei 2025 · 1.0 MB', 'Belum diperiksa', ''],
-            ['Izin Lokasi', 'izin_lokasi.pdf', '08 Mei 2025 · 1.1 MB', 'Sesuai', ''],
-            ['Persetujuan Lingkungan', 'persetujuan_lingkungan.pdf', '08 Mei 2025 · 1.3 MB', 'Perlu perbaikan', 'Pernyataan pengelolaan limbah cair belum melampirkan izin TPS terpadu.'],
-            ['Izin PBG', 'izin_pbg.pdf', '08 Mei 2025 · 1.4 MB', 'Sesuai', ''],
-            ['Gambar Rencana Tapak', 'gambar_rencana_tapak.pdf', '08 Mei 2025 · 1.6 MB', 'Sesuai', ''],
-            ['Rencana Utilitas', 'rencana_utilitas.pdf', '08 Mei 2025 · 1.7 MB', 'Sesuai', ''],
-            ['Rencana Drainase', 'rencana_drainase.pdf', '08 Mei 2025 · 1.9 MB', 'Sesuai', ''],
-            ['Surat Pernyataan Pengembang', 'surat_pernyataan_pengembang.pdf', '08 Mei 2025 · 2.0 MB', 'Sesuai', ''],
-            ['Daftar Unit Perumahan', 'daftar_unit_perumahan.pdf', '08 Mei 2025 · 2.1 MB', 'Sesuai', ''],
-            ['Dokumen Analisis Dampak Lalu Lintas', 'dokumen_analisis_dampak_lalu_lintas.pdf', '08 Mei 2025 · 2.3 MB', 'Sesuai', ''],
+        $dokPerumahanTemplate = [
+            ['Site Plan yang Disahkan', 'site_plan_yang_disahkan.pdf', '0.8 MB'],
+            ['Bukti Kepemilikan Tanah', 'bukti_kepemilikan_tanah.pdf', '1.0 MB'],
+            ['Izin Lokasi', 'izin_lokasi.pdf', '1.1 MB'],
+            ['Persetujuan Lingkungan', 'persetujuan_lingkungan.pdf', '1.3 MB'],
+            ['Izin PBG', 'izin_pbg.pdf', '1.4 MB'],
+            ['Gambar Rencana Tapak', 'gambar_rencana_tapak.pdf', '1.6 MB'],
+            ['Rencana Utilitas', 'rencana_utilitas.pdf', '1.7 MB'],
+            ['Rencana Drainase', 'rencana_drainase.pdf', '1.9 MB'],
+            ['Surat Pernyataan Pengembang', 'surat_pernyataan_pengembang.pdf', '2.0 MB'],
+            ['Daftar Unit Perumahan', 'daftar_unit_perumahan.pdf', '2.1 MB'],
+            ['Dokumen Analisis Dampak Lalu Lintas', 'dokumen_analisis_dampak_lalu_lintas.pdf', '2.3 MB'],
         ];
 
-        foreach ($dokPerumahan as $d) {
+        // Seed documents for ALL submissions
+        $allPengajuans = Pengajuan::all();
+        foreach ($allPengajuans as $p) {
+            $isSpecificSample = ($p->id === 'SR-2025-0148');
+
+            foreach ($dokPerusahaanTemplate as $idx => $d) {
+                $status = 'Sesuai';
+                $catatan = '';
+                if ($isSpecificSample && $idx === 1) $status = 'Belum diperiksa';
+                if ($isSpecificSample && $idx === 3) {
+                    $status = 'Perlu perbaikan';
+                    $catatan = 'Scan KTP buram dan tanggal berlaku perlu dikonfirmasi.';
+                }
+
+                DokumenPengajuan::create([
+                    'pengajuan_id' => $p->id,
+                    'kategori' => 'perusahaan',
+                    'nama_persyaratan' => $d[0],
+                    'nama_file' => strtolower(str_replace(' ', '_', $p->id)) . '_' . $d[1],
+                    'ukuran_file' => '08 Mei 2025 · ' . $d[2],
+                    'tanggal_unggah' => '08 Mei 2025',
+                    'status' => $status,
+                    'catatan' => $catatan,
+                ]);
+            }
+
+            foreach ($dokPerumahanTemplate as $idx => $d) {
+                $status = 'Sesuai';
+                $catatan = '';
+                if ($isSpecificSample && $idx === 1) $status = 'Belum diperiksa';
+                if ($isSpecificSample && $idx === 3) {
+                    $status = 'Perlu perbaikan';
+                    $catatan = 'Pernyataan pengelolaan limbah cair belum melampirkan izin TPS terpadu.';
+                }
+
+                DokumenPengajuan::create([
+                    'pengajuan_id' => $p->id,
+                    'kategori' => 'perumahan',
+                    'nama_persyaratan' => $d[0],
+                    'nama_file' => strtolower(str_replace(' ', '_', $p->id)) . '_' . $d[1],
+                    'ukuran_file' => '08 Mei 2025 · ' . $d[2],
+                    'tanggal_unggah' => '08 Mei 2025',
+                    'status' => $status,
+                    'catatan' => $catatan,
+                ]);
+            }
+
             DokumenPengajuan::create([
-                'pengajuan_id' => 'SR-2025-0148',
-                'kategori' => 'perumahan',
-                'nama_persyaratan' => $d[0],
-                'nama_file' => $d[1],
-                'ukuran_file' => $d[2],
+                'pengajuan_id' => $p->id,
+                'kategori' => 'paket_teknis',
+                'nama_persyaratan' => 'Paket Dokumen Teknis',
+                'nama_file' => 'Paket_tekdok_' . preg_replace('/[^A-Za-z0-9]/', '', $p->nama_perumahan) . '.zip',
+                'ukuran_file' => '24.8 MB · berisi 7 berkas',
                 'tanggal_unggah' => '08 Mei 2025',
-                'status' => $d[3],
-                'catatan' => $d[4],
+                'status' => 'Sesuai',
+                'catatan' => 'Mencakup 21 kategori teknis opsional.',
             ]);
         }
-
-        DokumenPengajuan::create([
-            'pengajuan_id' => 'SR-2025-0148',
-            'kategori' => 'paket_teknis',
-            'nama_persyaratan' => 'Paket Dokumen Teknis',
-            'nama_file' => 'Paket_tekdok_GriyaMahardika.zip',
-            'ukuran_file' => '24.8 MB · berisi 7 berkas',
-            'tanggal_unggah' => '08 Mei 2025',
-            'status' => 'Sesuai',
-            'catatan' => 'Mencakup 21 kategori teknis opsional.',
-        ]);
 
         // 4. Surveys for SR-2025-0148
         SurveyPengajuan::create([
