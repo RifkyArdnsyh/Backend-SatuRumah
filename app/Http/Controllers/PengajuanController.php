@@ -94,19 +94,19 @@ class PengajuanController extends Controller
         if ($perluPerbaikanCount > 0) {
             $pengajuan->tahap = 'Verifikasi teknis';
             $pengajuan->status = 'Perlu perbaikan';
-            $pengajuan->catatan_status = "Verifikasi Otomatis: Ditemukan {$perluPerbaikanCount} berkas yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.";
+            $pengajuan->catatan_status = "Verifikasi Berkas: Ditemukan {$perluPerbaikanCount} berkas yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.";
             $pengajuan->save();
 
             RiwayatPengajuan::create([
                 'pengajuan_id' => $pengajuan->id,
-                'judul' => 'Verifikasi Otomatis Sistem Selesai',
-                'deskripsi' => "Sistem mendeteksi {$perluPerbaikanCount} dokumen perlu perbaikan. Notifikasi revisi otomatis disiapkan untuk pengembang.",
-                'oleh' => 'Sistem Verifikasi Otomatis',
+                'judul' => 'Verifikasi Berkas Selesai',
+                'deskripsi' => "Hasil verifikasi mendeteksi {$perluPerbaikanCount} dokumen perlu perbaikan. Pengembang diminta melengkapi berkas terkait.",
+                'oleh' => 'Verifikator Disperwaskim',
                 'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
             ]);
 
             return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'dokumen'])
-                ->with('warning', "Verifikasi otomatis selesai: Terdapat {$perluPerbaikanCount} dokumen yang perlu diperbaiki.");
+                ->with('warning', "Pemeriksaan selesai: Terdapat {$perluPerbaikanCount} dokumen yang perlu diperbaiki.");
         }
 
         // If there are uninspected documents without errors, auto-verify all as Sesuai
@@ -118,19 +118,19 @@ class PengajuanController extends Controller
 
         $pengajuan->tahap = 'Survey';
         $pengajuan->status = 'Terjadwal';
-        $pengajuan->catatan_status = 'Verifikasi Otomatis Selesai: Seluruh dokumen persyaratan wajib telah diverifikasi dan dinyatakan SESUAI. Pengajuan siap untuk survey & monitoring.';
+        $pengajuan->catatan_status = 'Verifikasi Berkas Selesai: Seluruh dokumen persyaratan wajib telah diverifikasi dan dinyatakan SESUAI. Pengajuan siap untuk survey & monitoring.';
         $pengajuan->save();
 
         RiwayatPengajuan::create([
             'pengajuan_id' => $pengajuan->id,
-            'judul' => 'Verifikasi Otomatis Sistem Sukses',
-            'deskripsi' => 'Seluruh dokumen persyaratan administratif dan teknis telah diverifikasi otomatis dan dinyatakan SESUAI.',
-            'oleh' => 'Sistem Verifikasi Otomatis',
+            'judul' => 'Verifikasi Berkas Disetujui',
+            'deskripsi' => 'Seluruh dokumen persyaratan administratif dan teknis telah diperiksa dan dinyatakan SESUAI.',
+            'oleh' => 'Verifikator Disperwaskim',
             'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
         ]);
 
         return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'monitoring'])
-            ->with('success', 'Verifikasi otomatis berhasil! Seluruh dokumen sesuai dan pengajuan siap masuk tahap Survey & Monitoring.');
+            ->with('success', 'Verifikasi berkas berhasil! Seluruh dokumen sesuai dan pengajuan siap masuk tahap Survey & Monitoring.');
     }
 
     public function updateStatus(Request $request, $id)
