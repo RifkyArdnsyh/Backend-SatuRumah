@@ -20,11 +20,10 @@
                         <td style="font-weight: 600;">{{ $doc->nama_persyaratan }}</td>
                         <td>
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <button type="button" class="btn-pdf" onclick="openPdfViewer({{ json_encode($doc) }}, '{{ $pengajuan->nama_perumahan }}', '{{ $pengajuan->nama_pengembang }}')">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    Lihat PDF
-                                </button>
-                                <span style="font-size: 13px; color: var(--text-muted);">{{ $doc->nama_file }}</span>
+                                <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #fee2e2; color: #b91c1c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Berkas PDF">
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <span style="font-size: 13px; font-weight: 500; color: var(--text-main); font-family: monospace;">{{ $doc->nama_file }}</span>
                             </div>
                         </td>
                         <td style="color: var(--text-muted);">{{ $doc->ukuran_file }}</td>
@@ -77,11 +76,10 @@
                         <td style="font-weight: 600;">{{ $doc->nama_persyaratan }}</td>
                         <td>
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <button type="button" class="btn-pdf" onclick="openPdfViewer({{ json_encode($doc) }}, '{{ $pengajuan->nama_perumahan }}', '{{ $pengajuan->nama_pengembang }}')">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    Lihat PDF
-                                </button>
-                                <span style="font-size: 13px; color: var(--text-muted);">{{ $doc->nama_file }}</span>
+                                <div style="width: 28px; height: 28px; border-radius: 6px; background-color: #fee2e2; color: #b91c1c; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Berkas PDF">
+                                    <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <span style="font-size: 13px; font-weight: 500; color: var(--text-main); font-family: monospace;">{{ $doc->nama_file }}</span>
                             </div>
                         </td>
                         <td style="color: var(--text-muted);">{{ $doc->ukuran_file }}</td>

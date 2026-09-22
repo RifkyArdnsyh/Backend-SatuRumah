@@ -26,7 +26,7 @@ Copy-Item .env.example .env
 
 ### 2. Instal Dependensi Composer
 Unduh seluruh pustaka PHP yang dibutuhkan aplikasi:
-```bash
+```bashs
 composer install
 ```
 

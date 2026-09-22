@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Create Submissions (Pengajuan)
+        // 2. Create Submissions (Pengajuan) - Synchronized with Mobile App (pengajuan_form_controller.dart)
         $p1 = Pengajuan::create([
             'id' => 'SR-2025-0148',
             'nama_pengembang' => 'PT Citra Tasik Mandiri',
@@ -56,9 +56,9 @@ class DatabaseSeeder extends Seeder
             'jumlah_unit' => '148 unit rumah tapak',
             'luas_kawasan' => '34.800 m²',
             'penanggung_jawab' => 'H. Asep Hendrayana, S.T.',
-            'tahap' => 'Verifikasi teknis',
-            'status' => 'Perlu perbaikan',
-            'catatan_status' => 'Terdapat 3 dokumen yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.',
+            'tahap' => 'Survey',
+            'status' => 'Terjadwal',
+            'catatan_status' => 'Seluruh dokumen persyaratan telah diverifikasi dan dinyatakan sesuai. Jadwal survey lapangan telah ditetapkan untuk tanggal 22 Mei 2025 pukul 09.00 WIB.',
             'diajukan_pada' => '08 Mei 2025 · 09.21 WIB',
         ]);
 
@@ -72,8 +72,8 @@ class DatabaseSeeder extends Seeder
             'penanggung_jawab' => 'Dedi Setiadi, S.T.',
             'tahap' => 'Survey',
             'status' => 'Terjadwal',
-            'catatan_status' => 'Jadwal survey lokasi telah dikonfirmasi untuk tanggal 20 Mei 2025.',
-            'diajukan_pada' => 'Kemarin, 15.20',
+            'catatan_status' => 'Jadwal survey lokasi telah dikonfirmasi untuk tanggal 20 Mei 2025. Titik kumpul Kantor Pemasaran Kawalu.',
+            'diajukan_pada' => '12 Mei 2025 · 15.20 WIB',
         ]);
 
         $p3 = Pengajuan::create([
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             'penanggung_jawab' => 'Ir. Tatan Rustandi',
             'tahap' => 'Dokumen',
             'status' => 'Menunggu verifikasi',
-            'catatan_status' => 'Dokumen persyaratan lengkap dan siap diperiksa tim administratif.',
+            'catatan_status' => 'Dokumen persyaratan lengkap dan siap diperiksa tim administratif Disperwaskim.',
             'diajukan_pada' => '12 Mei 2025',
         ]);
 
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             'penanggung_jawab' => 'Yudi Permana, S.T.',
             'tahap' => 'Monitoring',
             'status' => 'Final',
-            'catatan_status' => 'Hasil monitoring lapangan telah berstatus Final.',
+            'catatan_status' => 'Hasil monitoring lapangan telah berstatus Final dan Berita Acara telah diterbitkan.',
             'diajukan_pada' => '11 Mei 2025',
         ]);
 
@@ -118,6 +118,20 @@ class DatabaseSeeder extends Seeder
             'diajukan_pada' => '10 Mei 2025',
         ]);
 
+        $p6 = Pengajuan::create([
+            'id' => 'SR-20260720-612',
+            'nama_pengembang' => 'PT. Tasik Indah Sentosa',
+            'nama_perumahan' => 'Green Tasik',
+            'lokasi' => 'Kec. Cipedes, Kota Tasikmalaya',
+            'jumlah_unit' => '85 unit rumah tapak',
+            'luas_kawasan' => '15.000 m²',
+            'penanggung_jawab' => 'H. Tatang Sutisna',
+            'tahap' => 'Survey',
+            'status' => 'Dalam proses',
+            'catatan_status' => 'Pengajuan dalam proses survey lokasi perumahan.',
+            'diajukan_pada' => '20 Juli 2026',
+        ]);
+
         $kecamatanTasik = [
             'Kec. Mangkubumi, Kota Tasikmalaya',
             'Kec. Kawalu, Kota Tasikmalaya',
@@ -131,8 +145,8 @@ class DatabaseSeeder extends Seeder
             'Kec. Tawang, Kota Tasikmalaya',
         ];
 
-        // Seed 37 additional dummy items for pagination demo (Total 42)
-        for ($i = 143; $i >= 107; $i--) {
+        // Seed 36 additional dummy items for pagination demo (Total 42 items)
+        for ($i = 143; $i >= 108; $i--) {
             $prefix = ['Griya ', 'Pesona ', 'Cluster ', 'Puri ', 'Taman '][rand(0, 4)];
             Pengajuan::create([
                 'id' => "SR-2025-0{$i}",
@@ -175,17 +189,7 @@ class DatabaseSeeder extends Seeder
         // Seed documents for ALL submissions
         $allPengajuans = Pengajuan::all();
         foreach ($allPengajuans as $p) {
-            $isSpecificSample = ($p->id === 'SR-2025-0148');
-
             foreach ($dokPerusahaanTemplate as $idx => $d) {
-                $status = 'Sesuai';
-                $catatan = '';
-                if ($isSpecificSample && $idx === 1) $status = 'Belum diperiksa';
-                if ($isSpecificSample && $idx === 3) {
-                    $status = 'Perlu perbaikan';
-                    $catatan = 'Scan KTP buram dan tanggal berlaku perlu dikonfirmasi.';
-                }
-
                 DokumenPengajuan::create([
                     'pengajuan_id' => $p->id,
                     'kategori' => 'perusahaan',
@@ -193,20 +197,12 @@ class DatabaseSeeder extends Seeder
                     'nama_file' => strtolower(str_replace(' ', '_', $p->id)) . '_' . $d[1],
                     'ukuran_file' => '08 Mei 2025 · ' . $d[2],
                     'tanggal_unggah' => '08 Mei 2025',
-                    'status' => $status,
-                    'catatan' => $catatan,
+                    'status' => 'Sesuai',
+                    'catatan' => 'Dokumen lengkap dan telah diverifikasi sah.',
                 ]);
             }
 
             foreach ($dokPerumahanTemplate as $idx => $d) {
-                $status = 'Sesuai';
-                $catatan = '';
-                if ($isSpecificSample && $idx === 1) $status = 'Belum diperiksa';
-                if ($isSpecificSample && $idx === 3) {
-                    $status = 'Perlu perbaikan';
-                    $catatan = 'Pernyataan pengelolaan limbah cair belum melampirkan izin TPS terpadu.';
-                }
-
                 DokumenPengajuan::create([
                     'pengajuan_id' => $p->id,
                     'kategori' => 'perumahan',
@@ -214,8 +210,8 @@ class DatabaseSeeder extends Seeder
                     'nama_file' => strtolower(str_replace(' ', '_', $p->id)) . '_' . $d[1],
                     'ukuran_file' => '08 Mei 2025 · ' . $d[2],
                     'tanggal_unggah' => '08 Mei 2025',
-                    'status' => $status,
-                    'catatan' => $catatan,
+                    'status' => 'Sesuai',
+                    'catatan' => 'Memenuhi persyaratan teknis dan tata ruang.',
                 ]);
             }
 
@@ -231,14 +227,14 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 4. Surveys for SR-2025-0148
+        // 4. Surveys for SR-2025-0148 & SR-2025-0147 & SR-20260720-612
         SurveyPengajuan::create([
             'pengajuan_id' => 'SR-2025-0148',
             'tanggal_survey' => '2025-05-22',
             'jam_survey' => '09.00 WIB',
             'petugas_nama' => 'Rahmat Hidayat, S.T.',
             'petugas_role' => 'Perwaskim',
-            'instruksi' => 'Tinjau kesesuaian site plan, drainase, akses jalan, dan fasilitas umum di lokasi perumahan.',
+            'instruksi' => 'Tinjau kesesuaian site plan, drainase, akses jalan, dan fasilitas umum di lokasi perumahan (Kec. Mangkubumi).',
             'status' => 'Terjadwal',
         ]);
 
@@ -250,6 +246,26 @@ class DatabaseSeeder extends Seeder
             'petugas_role' => 'Perwaskim',
             'instruksi' => 'Survey awal lokasi perumahan.',
             'status' => 'Dijadwalkan Ulang',
+        ]);
+
+        SurveyPengajuan::create([
+            'pengajuan_id' => 'SR-2025-0147',
+            'tanggal_survey' => '2025-05-20',
+            'jam_survey' => '09.00 WIB',
+            'petugas_nama' => 'Rahmat Hidayat, S.T.',
+            'petugas_role' => 'Perwaskim',
+            'instruksi' => 'Jadwal survey lokasi telah dikonfirmasi. Titik kumpul Kantor Pemasaran Kawalu.',
+            'status' => 'Terjadwal',
+        ]);
+
+        SurveyPengajuan::create([
+            'pengajuan_id' => 'SR-20260720-612',
+            'tanggal_survey' => '2026-06-20',
+            'jam_survey' => '09.00 WIB',
+            'petugas_nama' => 'Rahmat Hidayat, S.T.',
+            'petugas_role' => 'Perwaskim',
+            'instruksi' => 'Survey lapangan untuk perumahan Green Tasik.',
+            'status' => 'Terjadwal',
         ]);
 
         // 5. Monitoring for SR-2025-0148
@@ -295,11 +311,11 @@ class DatabaseSeeder extends Seeder
             'tanggal' => '08 Mei 2025 · 09.21',
         ]);
 
-        // 7. Notifikasi
+        // 7. Notifikasi - Synchronized with Mobile notifikasi_provider.dart
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0148',
             'judul' => 'Pengajuan baru',
-            'pesan' => 'Griya Mangkubumi Asri',
+            'pesan' => 'Griya Mangkubumi Asri (SR-2025-0148) telah diajukan dan menunggu verifikasi teknis.',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now(),
@@ -308,7 +324,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0144',
             'judul' => 'Permintaan perbaikan telah terkirim',
-            'pesan' => 'Tamansari Asri Residence',
+            'pesan' => 'Tamansari Asri Residence (SR-2025-0144) telah melengkapi verifikasi teknis.',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now()->subHours(2),
@@ -317,7 +333,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0146',
             'judul' => 'Survey ditugaskan',
-            'pesan' => 'Pesona Cibeureum Pratama',
+            'pesan' => 'Pesona Cibeureum Pratama (SR-2025-0146) telah diagendakan survey lokasi.',
             'tipe' => 'unread',
             'is_read' => false,
             'created_at' => now()->subHours(4),
@@ -326,7 +342,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0145',
             'judul' => 'Monitoring final tersedia',
-            'pesan' => 'Puri Cendana',
+            'pesan' => 'Hasil monitoring Bungursari Harmoni Indah (SR-2025-0145) telah disahkan Final.',
             'tipe' => 'read',
             'is_read' => true,
             'created_at' => now()->subDays(1),
@@ -335,7 +351,7 @@ class DatabaseSeeder extends Seeder
         Notifikasi::create([
             'pengajuan_id' => 'SR-2025-0147',
             'judul' => 'Dokumen persetujuan akhir tersedia',
-            'pesan' => 'Taman Kencana Asri',
+            'pesan' => 'Kencana Kawalu Regency (SR-2025-0147) siap untuk survey lokasi perwaskim.',
             'tipe' => 'read',
             'is_read' => true,
             'created_at' => now()->subDays(2),
