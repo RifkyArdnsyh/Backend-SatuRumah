@@ -1,60 +1,56 @@
-<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
-    <!-- Informasi Perumahan Card -->
-    <div class="card" style="margin-bottom: 0;">
-        <div class="card-header">
-            <h2 class="card-title">Informasi Perumahan</h2>
+<div class="grid-main-side">
+    <div class="card" style="box-shadow:none;">
+        <div class="card-head bordered">
+            <div class="card-title" style="font-size:16px;">Informasi Perumahan</div>
         </div>
-        <div class="card-body" style="padding: 0;">
-            <table class="table" style="font-size: 14px;">
-                <tbody>
-                    <tr>
-                        <td style="width: 220px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">Nama perumahan</td>
-                        <td style="font-weight: 700; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">{{ $pengajuan->nama_perumahan }}</td>
-                    </tr>
-                    <tr>
-                        <td style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">Lokasi</td>
-                        <td style="font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">{{ $pengajuan->lokasi }}</td>
-                    </tr>
-                    <tr>
-                        <td style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">Jumlah unit</td>
-                        <td style="font-weight: 700; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">{{ $pengajuan->jumlah_unit }}</td>
-                    </tr>
-                    <tr>
-                        <td style="color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">Luas kawasan</td>
-                        <td style="font-weight: 700; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding: 18px 24px;">{{ $pengajuan->luas_kawasan }}</td>
-                    </tr>
-                    <tr>
-                        <td style="color: var(--text-muted); padding: 18px 24px;">Penanggung jawab</td>
-                        <td style="font-weight: 700; color: var(--text-main); padding: 18px 24px;">{{ $pengajuan->penanggung_jawab }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="card-body" style="padding: 8px 24px 20px;">
+            <dl class="kv">
+                <div class="kv-row">
+                    <dt>Nama perumahan</dt>
+                    <dd>{{ $pengajuan->nama_perumahan }}</dd>
+                </div>
+                <div class="kv-row">
+                    <dt>Lokasi</dt>
+                    <dd>{{ $pengajuan->lokasi }}</dd>
+                </div>
+                <div class="kv-row">
+                    <dt>Jumlah unit</dt>
+                    <dd>{{ $pengajuan->jumlah_unit }}</dd>
+                </div>
+                <div class="kv-row">
+                    <dt>Luas kawasan</dt>
+                    <dd>{{ $pengajuan->luas_kawasan }}</dd>
+                </div>
+                <div class="kv-row">
+                    <dt>Penanggung jawab</dt>
+                    <dd>{{ $pengajuan->penanggung_jawab }}</dd>
+                </div>
+            </dl>
         </div>
     </div>
 
-    <!-- Status Pengajuan Card -->
-    <div class="card" style="margin-bottom: 0;">
-        <div class="card-header">
-            <h2 class="card-title">Status Pengajuan</h2>
+    <div class="card" style="box-shadow:none;">
+        <div class="card-head bordered">
+            <div class="card-title" style="font-size:16px;">Status Pengajuan</div>
         </div>
         <div class="card-body">
             <div style="margin-bottom: 16px;">
                 @if($pengajuan->status == 'Perlu perbaikan')
-                    <span class="badge badge-yellow" style="font-size: 13px; padding: 6px 12px;">Perlu perbaikan</span>
+                    <span class="badge badge-warning badge-dot">Perlu perbaikan</span>
                 @elseif($pengajuan->status == 'Terjadwal')
-                    <span class="badge badge-blue" style="font-size: 13px; padding: 6px 12px;">Terjadwal</span>
-                @elseif($pengajuan->status == 'Final' || $pengajuan->status == 'Siap disetujui')
-                    <span class="badge badge-green" style="font-size: 13px; padding: 6px 12px;">{{ $pengajuan->status }}</span>
+                    <span class="badge badge-info badge-dot">Terjadwal</span>
+                @elseif(in_array($pengajuan->status, ['Final', 'Siap disetujui']))
+                    <span class="badge badge-success badge-dot">{{ $pengajuan->status }}</span>
                 @else
-                    <span class="badge badge-gray" style="font-size: 13px; padding: 6px 12px;">{{ $pengajuan->status }}</span>
+                    <span class="badge badge-dot">{{ $pengajuan->status }}</span>
                 @endif
             </div>
 
-            <p style="font-size: 14px; color: var(--text-main); line-height: 1.6; margin-bottom: 24px;">
-                {{ $pengajuan->catatan_status ?? 'Terdapat 3 dokumen yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.' }}
+            <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                {{ $pengajuan->catatan_status ?? 'Belum ada catatan tambahan untuk pengajuan ini.' }}
             </p>
 
-            <div style="font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <div class="text-muted" style="font-size: 12px; border-top: 1px solid var(--border); padding-top: 14px;">
                 Diajukan pada {{ $pengajuan->diajukan_pada }}
             </div>
         </div>

@@ -11,8 +11,9 @@ class NotifikasiController extends Controller
     {
         $notifikasis = Notifikasi::with('pengajuan')->latest()->get();
         $unreadCount = Notifikasi::where('is_read', false)->count();
+        $antreanCount = \App\Models\Pengajuan::count();
 
-        return view('admin.notifikasi.index', compact('notifikasis', 'unreadCount'));
+        return view('admin.notifikasi.index', compact('notifikasis', 'unreadCount', 'antreanCount'));
     }
 
     public function markAsRead($id)

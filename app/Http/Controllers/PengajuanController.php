@@ -18,8 +18,8 @@ class PengajuanController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
-                  ->orWhere('nama_pengembang', 'like', "%{$search}%")
-                  ->orWhere('nama_perumahan', 'like', "%{$search}%");
+                    ->orWhere('nama_pengembang', 'like', "%{$search}%")
+                    ->orWhere('nama_perumahan', 'like', "%{$search}%");
             });
         }
 
@@ -33,12 +33,13 @@ class PengajuanController extends Controller
 
         $pengajuans = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
-        $totalSemua   = Pengajuan::count();
-        $totalAktif   = Pengajuan::whereNotIn('status', ['Selesai', 'Ditolak'])->count();
+        $totalSemua = Pengajuan::count();
+        $totalAktif = Pengajuan::whereNotIn('status', ['Selesai', 'Ditolak'])->count();
         $totalMenunggu = Pengajuan::where('status', 'Menunggu verifikasi')->count();
-        $totalPerlu    = Pengajuan::where('status', 'Perlu perbaikan')->count();
+        $totalPerlu = Pengajuan::where('status', 'Perlu perbaikan')->count();
 
         $unreadCount = \App\Models\Notifikasi::where('is_read', false)->count();
+        $antreanCount = $totalSemua;
 
         return view('admin.pengajuan.index', compact(
             'pengajuans',
@@ -47,6 +48,7 @@ class PengajuanController extends Controller
             'totalMenunggu',
             'totalPerlu',
             'unreadCount',
+            'antreanCount',
         ));
     }
 
@@ -61,13 +63,14 @@ class PengajuanController extends Controller
         ])->findOrFail($id);
 
         $activeTab = $request->query('tab', 'ringkasan');
-        
+
         // If legacy 'survey' tab is requested, map it to 'monitoring'
         if ($activeTab === 'survey' || $activeTab === 'verifikasi') {
             $activeTab = ($activeTab === 'verifikasi') ? 'dokumen' : 'monitoring';
         }
 
         $unreadCount = Notifikasi::where('is_read', false)->count();
+        $antreanCount = Pengajuan::count();
 
         // Group documents by kategori
         $dokumenPerusahaan = $pengajuan->dokumen->where('kategori', 'perusahaan');
@@ -78,6 +81,7 @@ class PengajuanController extends Controller
             'pengajuan',
             'activeTab',
             'unreadCount',
+            'antreanCount',
             'dokumenPerusahaan',
             'dokumenPerumahan',
             'paketTeknis'
@@ -87,7 +91,7 @@ class PengajuanController extends Controller
     public function autoVerifikasi($id)
     {
         $pengajuan = Pengajuan::with('dokumen')->findOrFail($id);
-        
+
         $perluPerbaikanCount = $pengajuan->dokumen->where('status', 'Perlu perbaikan')->count();
         $belumDiperiksaCount = $pengajuan->dokumen->where('status', 'Belum diperiksa')->count();
 

@@ -16,15 +16,16 @@ class DashboardController extends Controller
 
         // Statistik ringkas
         $stats = [
-            'pengajuan_baru'       => 18,
-            'verifikasi_teknis'    => 12,
-            'survey_terjadwal'     => 7,
-            'perlu_tindak_lanjut'  => 5,
+            'pengajuan_baru' => 18,
+            'verifikasi_teknis' => 12,
+            'survey_terjadwal' => 7,
+            'perlu_tindak_lanjut' => 5,
         ];
 
         $unreadCount = Notifikasi::where('is_read', false)->count();
+        $antreanCount = $stats['pengajuan_baru'];
 
-        return view('admin.dashboard', compact('pengajuans', 'stats', 'unreadCount'));
+        return view('admin.dashboard', compact('pengajuans', 'stats', 'unreadCount', 'antreanCount'));
     }
 
 
@@ -35,7 +36,7 @@ class DashboardController extends Controller
             'Content-Disposition' => 'attachment; filename="Antrean_Pengajuan_SATURUMAH_' . date('Ymd_His') . '.csv"',
         ];
 
-        $callback = function() {
+        $callback = function () {
             $file = fopen('php://output', 'w');
             fputcsv($file, ['ID Pengajuan', 'Nama Pengembang', 'Nama Perumahan', 'Tahap', 'Status', 'Terakhir Diperbarui']);
 
