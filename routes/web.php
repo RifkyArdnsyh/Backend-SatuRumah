@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Dokumen Routes
     Route::post('/dokumen/{id}/status', [DokumenController::class, 'updateStatus'])->name('dokumen.update_status');
+    Route::get('/dokumen/preview-tte', [DokumenController::class, 'previewTte'])->name('dokumen.preview_tte');
+    Route::get('/dokumen/{id}/cetak-pdf', [DokumenController::class, 'cetakPdf'])->name('dokumen.cetak_pdf');
 
     // Survey Routes
     Route::post('/pengajuan/{id}/survey', [SurveyController::class, 'store'])->name('survey.store');

@@ -2,17 +2,32 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
-     * A basic test example.
+     * Test guest user is redirected to login page when accessing root.
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_guest_is_redirected_to_login(): void
     {
         $response = $this->get('/');
+
+        $response->assertRedirect('/login');
+    }
+
+    /**
+     * Test authenticated user can access the dashboard root with status 200.
+     */
+    public function test_authenticated_user_can_access_home(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
     }
