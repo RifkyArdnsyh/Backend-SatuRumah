@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@saturumah.go.id'],
             [
                 'name' => 'Verifikator Disperwaskim',
+                'username' => 'admin_disperwaskim',
                 'password' => Hash::make('password'),
                 'role' => 'verifikator',
                 'avatar_initials' => 'VD',
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'verifikator@saturumah.go.id'],
             [
                 'name' => 'Verifikator Disperwaskim',
+                'username' => 'verifikator',
                 'password' => Hash::make('password'),
                 'role' => 'verifikator',
                 'avatar_initials' => 'VD',
@@ -41,9 +43,21 @@ class DatabaseSeeder extends Seeder
             ['email' => 'rahmat@saturumah.go.id'],
             [
                 'name' => 'Rahmat Hidayat, S.T.',
-                'password' => Hash::make('password'),
+                'username' => 'tim_monitoring_perwaskim',
+                'password' => Hash::make('monitoring123'),
                 'role' => 'perwaskim',
                 'avatar_initials' => 'RH',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'pengembang@saturumah.go.id'],
+            [
+                'name' => 'PT Citra Tasik Mandiri',
+                'username' => 'pt_tasik_indah',
+                'password' => Hash::make('demo123'),
+                'role' => 'pengembang',
+                'avatar_initials' => 'PT',
             ]
         );
 
