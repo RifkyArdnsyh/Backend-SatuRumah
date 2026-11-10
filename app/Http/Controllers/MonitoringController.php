@@ -51,12 +51,11 @@ class MonitoringController extends Controller
 
     public function submitAction(Request $request, $pengajuan_id)
     {
-        Gate::authorize('manageMonitoring', $pengajuan);
-
         $action = $request->input('action'); // 'perbaikan' or 'persetujuan'
 
         return \Illuminate\Support\Facades\DB::transaction(function () use ($action, $pengajuan_id) {
             $pengajuan = Pengajuan::lockForUpdate()->findOrFail($pengajuan_id);
+            Gate::authorize('manageMonitoring', $pengajuan);
 
             if ($action === 'persetujuan') {
                 $pengajuan->transitionTo('Persetujuan', 'Siap disetujui');

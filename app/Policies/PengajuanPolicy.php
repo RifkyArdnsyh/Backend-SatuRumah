@@ -58,6 +58,15 @@ class PengajuanPolicy
     }
 
     /**
+     * Tentukan apakah user boleh mengelola hasil survey / monitoring.
+     */
+    public function manageMonitoring(User $user, Pengajuan $pengajuan): bool
+    {
+        $role = strtolower($user->role ?? '');
+        return in_array($role, ['admin', 'admin_disperwaskim', 'verifikator', 'perwaskim', 'tim_monitoring', 'pimpinan', 'kepala_dinas'], true);
+    }
+
+    /**
      * Tentukan apakah user boleh menghapus pengajuan.
      */
     public function delete(User $user, Pengajuan $pengajuan): bool
