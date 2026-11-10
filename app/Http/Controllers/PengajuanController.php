@@ -1,25 +1,31 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Pengajuan;
 use App\Models\DokumenPengajuan;
 use App\Models\Notifikasi;
+use App\Models\Pengajuan;
 use App\Models\RiwayatPengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PengajuanController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
         $query = Pengajuan::query();
+
+        // Jika user adalah pengembang, batasi hanya menampilkan pengajuannya sendiri
+        if ($user && $user->role === 'pengembang') {
+            $query->where('nama_pengembang', $user->name);
+        }
 
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
-                  ->orWhere('nama_pengembang', 'like', "%{$search}%")
-                  ->orWhere('nama_perumahan', 'like', "%{$search}%");
+                    ->orWhere('nama_pengembang', 'like', "%{$search}%")
+                    ->orWhere('nama_perumahan', 'like', "%{$search}%");
             });
         }
 
@@ -33,12 +39,17 @@ class PengajuanController extends Controller
 
         $pengajuans = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
-        $totalSemua   = Pengajuan::count();
-        $totalAktif   = Pengajuan::whereNotIn('status', ['Selesai', 'Ditolak'])->count();
-        $totalMenunggu = Pengajuan::where('status', 'Menunggu verifikasi')->count();
-        $totalPerlu    = Pengajuan::where('status', 'Perlu perbaikan')->count();
+        $baseCountQuery = Pengajuan::query();
+        if ($user && $user->role === 'pengembang') {
+            $baseCountQuery->where('nama_pengembang', $user->name);
+        }
 
-        $unreadCount = \App\Models\Notifikasi::where('is_read', false)->count();
+        $totalSemua = (clone $baseCountQuery)->count();
+        $totalAktif = (clone $baseCountQuery)->whereNotIn('status', ['Selesai', 'Ditolak'])->count();
+        $totalMenunggu = (clone $baseCountQuery)->where('status', 'Menunggu verifikasi')->count();
+        $totalPerlu = (clone $baseCountQuery)->where('status', 'Perlu perbaikan')->count();
+
+        $unreadCount = Notifikasi::where('is_read', false)->count();
 
         return view('admin.pengajuan.index', compact(
             'pengajuans',
@@ -60,9 +71,10 @@ class PengajuanController extends Controller
             'riwayat',
         ])->findOrFail($id);
 
+        Gate::authorize('view', $pengajuan);
+
         $activeTab = $request->query('tab', 'ringkasan');
-        
-        // If legacy 'survey' tab is requested, map it to 'monitoring'
+
         if ($activeTab === 'survey' || $activeTab === 'verifikasi') {
             $activeTab = ($activeTab === 'verifikasi') ? 'dokumen' : 'monitoring';
         }
@@ -86,76 +98,83 @@ class PengajuanController extends Controller
 
     public function autoVerifikasi($id)
     {
-        $pengajuan = Pengajuan::with('dokumen')->findOrFail($id);
-        
-        $perluPerbaikanCount = $pengajuan->dokumen->where('status', 'Perlu perbaikan')->count();
-        $belumDiperiksaCount = $pengajuan->dokumen->where('status', 'Belum diperiksa')->count();
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
+            $pengajuan = Pengajuan::with('dokumen')->lockForUpdate()->findOrFail($id);
 
-        if ($perluPerbaikanCount > 0) {
-            $pengajuan->tahap = 'Verifikasi teknis';
-            $pengajuan->status = 'Perlu perbaikan';
-            $pengajuan->catatan_status = "Verifikasi Berkas: Ditemukan {$perluPerbaikanCount} berkas yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey.";
-            $pengajuan->save();
+            $perluPerbaikanCount = $pengajuan->dokumen->where('status', 'Perlu perbaikan')->count();
+            $belumDiperiksaCount = $pengajuan->dokumen->where('status', 'Belum diperiksa')->count();
+
+            if ($perluPerbaikanCount > 0) {
+                $pengajuan->transitionTo(
+                    'Verifikasi teknis',
+                    'Perlu perbaikan',
+                    "Verifikasi Berkas: Ditemukan {$perluPerbaikanCount} berkas yang memerlukan perbaikan sebelum proses dapat dilanjutkan ke penjadwalan survey."
+                );
+
+                RiwayatPengajuan::create([
+                    'pengajuan_id' => $pengajuan->id,
+                    'judul' => 'Verifikasi Berkas Selesai',
+                    'deskripsi' => "Hasil verifikasi mendeteksi {$perluPerbaikanCount} dokumen perlu perbaikan. Pengembang diminta melengkapi berkas terkait.",
+                    'oleh' => 'Verifikator Disperwaskim',
+                    'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
+                ]);
+
+                return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'dokumen'])
+                    ->with('warning', "Pemeriksaan selesai: Terdapat {$perluPerbaikanCount} dokumen yang perlu diperbaiki.");
+            }
+
+            // If there are uninspected documents without errors, auto-verify all as Sesuai
+            if ($belumDiperiksaCount > 0) {
+                DokumenPengajuan::where('pengajuan_id', $pengajuan->id)
+                    ->where('status', 'Belum diperiksa')
+                    ->update(['status' => 'Sesuai']);
+            }
+
+            $pengajuan->transitionTo(
+                'Survey',
+                'Terjadwal',
+                'Verifikasi Berkas Selesai: Seluruh dokumen persyaratan wajib telah diverifikasi dan dinyatakan SESUAI. Pengajuan siap untuk survey & monitoring.'
+            );
 
             RiwayatPengajuan::create([
                 'pengajuan_id' => $pengajuan->id,
-                'judul' => 'Verifikasi Berkas Selesai',
-                'deskripsi' => "Hasil verifikasi mendeteksi {$perluPerbaikanCount} dokumen perlu perbaikan. Pengembang diminta melengkapi berkas terkait.",
-                'oleh' => 'Verifikator Disperwaskim',
+                'judul' => 'Verifikasi Berkas Disetujui',
+                'deskripsi' => 'Seluruh dokumen persyaratan administratif dan teknis telah diperiksa dan dinyatakan SESUAI.',
+                'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
                 'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
             ]);
 
-            return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'dokumen'])
-                ->with('warning', "Pemeriksaan selesai: Terdapat {$perluPerbaikanCount} dokumen yang perlu diperbaiki.");
-        }
-
-        // If there are uninspected documents without errors, auto-verify all as Sesuai
-        if ($belumDiperiksaCount > 0) {
-            DokumenPengajuan::where('pengajuan_id', $pengajuan->id)
-                ->where('status', 'Belum diperiksa')
-                ->update(['status' => 'Sesuai']);
-        }
-
-        $pengajuan->tahap = 'Survey';
-        $pengajuan->status = 'Terjadwal';
-        $pengajuan->catatan_status = 'Verifikasi Berkas Selesai: Seluruh dokumen persyaratan wajib telah diverifikasi dan dinyatakan SESUAI. Pengajuan siap untuk survey & monitoring.';
-        $pengajuan->save();
-
-        RiwayatPengajuan::create([
-            'pengajuan_id' => $pengajuan->id,
-            'judul' => 'Verifikasi Berkas Disetujui',
-            'deskripsi' => 'Seluruh dokumen persyaratan administratif dan teknis telah diperiksa dan dinyatakan SESUAI.',
-            'oleh' => 'Verifikator Disperwaskim',
-            'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
-        ]);
-
-        return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'monitoring'])
-            ->with('success', 'Verifikasi berkas berhasil! Seluruh dokumen sesuai dan pengajuan siap masuk tahap Survey & Monitoring.');
+            return redirect()->route('pengajuan.show', ['id' => $pengajuan->id, 'tab' => 'monitoring'])
+                ->with('success', 'Verifikasi berkas berhasil! Seluruh dokumen sesuai dan pengajuan siap masuk tahap Survey & Monitoring.');
+        });
     }
 
     public function updateStatus(Request $request, $id)
     {
-        $pengajuan = Pengajuan::findOrFail($id);
         $request->validate([
             'status' => 'required|string',
             'tahap' => 'nullable|string',
         ]);
 
-        $statusLama = $pengajuan->status;
-        $pengajuan->status = $request->status;
-        if ($request->filled('tahap')) {
-            $pengajuan->tahap = $request->tahap;
-        }
-        $pengajuan->save();
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $id) {
+            $pengajuan = Pengajuan::lockForUpdate()->findOrFail($id);
 
-        RiwayatPengajuan::create([
-            'pengajuan_id' => $pengajuan->id,
-            'judul' => 'Status Pengajuan Diperbarui',
-            'deskripsi' => "Status berubah dari '{$statusLama}' menjadi '{$pengajuan->status}'.",
-            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
-            'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
-        ]);
+            Gate::authorize('update', $pengajuan);
 
-        return back()->with('success', 'Status pengajuan berhasil diperbarui!');
+            $statusLama = $pengajuan->status;
+            $tahapBaru = $request->filled('tahap') ? $request->tahap : $pengajuan->tahap;
+
+            $pengajuan->transitionTo($tahapBaru, $request->status);
+
+            RiwayatPengajuan::create([
+                'pengajuan_id' => $pengajuan->id,
+                'judul' => 'Status Pengajuan Diperbarui',
+                'deskripsi' => "Status berubah dari '{$statusLama}' menjadi '{$pengajuan->status}'.",
+                'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
+                'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
+            ]);
+
+            return back()->with('success', 'Status pengajuan berhasil diperbarui!');
+        });
     }
 }

@@ -22,8 +22,23 @@ class SuresmanTteService
     }
 
     /**
-     * Mengambil gambar TTE dan menyimpannya di storage lokal.
-     * Mengembalikan relative path di disk public (misal: 'tte/tte_1990...png')
+     * Membangun HTTP Client dengan proteksi TLS wajib di staging/production.
+     */
+    private function httpClient()
+    {
+        $client = Http::withHeaders($this->headers());
+
+        // Hanya bypass verifikasi SSL jika environment lokal development
+        if (config('app.env') === 'local') {
+            $client = $client->withoutVerifying();
+        }
+
+        return $client;
+    }
+
+    /**
+     * Mengambil gambar TTE dan menyimpannya di storage PRIVAT (disk 'local').
+     * Mengembalikan relative path di disk local (misal: 'tte/tte_1990...png')
      * atau absolute path di server jika $absolute = true.
      */
     public function getOrDownloadTte(string $nip, ?string $overrideNama = null, ?string $overrideJabatan = null, bool $absolute = false): ?string
@@ -36,27 +51,24 @@ class SuresmanTteService
 
         $relativePath = "tte/tte_{$cleanNip}.png";
 
-        // 1. Cek Cache Lokal agar tidak spam request ke Suresman
-        if (Storage::disk('public')->exists($relativePath)) {
+        // 1. Cek Cache Lokal di Private Disk ('local') agar tidak spam ke server Suresman
+        if (Storage::disk('local')->exists($relativePath)) {
             return $absolute 
-                ? Storage::disk('public')->path($relativePath) 
+                ? Storage::disk('local')->path($relativePath) 
                 : $relativePath;
         }
 
         try {
             $jar = new CookieJar();
-            $headers = $this->headers();
 
             // Step 1: Ambil Session Cookie
-            Http::withoutVerifying()
-                ->withHeaders($headers)
+            $this->httpClient()
                 ->withOptions(['cookies' => $jar])
                 ->timeout(10)
                 ->get($this->baseUrl);
 
             // Step 2: Form Post Pencarian NIP
-            $searchResponse = Http::withoutVerifying()
-                ->withHeaders($headers)
+            $searchResponse = $this->httpClient()
                 ->withOptions(['cookies' => $jar, 'allow_redirects' => true])
                 ->timeout(12)
                 ->asForm()
@@ -77,8 +89,7 @@ class SuresmanTteService
             }
 
             // Step 3: Request Download Binary PNG
-            $downloadResponse = Http::withoutVerifying()
-                ->withHeaders($headers)
+            $downloadResponse = $this->httpClient()
                 ->withOptions(['cookies' => $jar, 'allow_redirects' => true])
                 ->timeout(15)
                 ->asForm()
@@ -91,10 +102,11 @@ class SuresmanTteService
                 ]);
 
             if (str_contains($downloadResponse->header('Content-Type') ?? '', 'image')) {
-                Storage::disk('public')->put($relativePath, $downloadResponse->body());
+                // Simpan di disk privat ('local'), BUKAN disk public
+                Storage::disk('local')->put($relativePath, $downloadResponse->body());
 
                 return $absolute 
-                    ? Storage::disk('public')->path($relativePath) 
+                    ? Storage::disk('local')->path($relativePath) 
                     : $relativePath;
             }
 
@@ -106,4 +118,3 @@ class SuresmanTteService
         }
     }
 }
-
