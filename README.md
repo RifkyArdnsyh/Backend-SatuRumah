@@ -4,7 +4,7 @@ Aplikasi backend RESTful API dan portal verifikasi perumahan serta PSU (Prasaran
 
 ---
 
-## 📋 Prasyarat Sistem
+## Prasyarat Sistem
 
 Pastikan perangkat Anda telah terpasang:
 - **PHP** >= 8.2 (dilengkapi ekstensi: `pdo_sqlite`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`)
@@ -13,11 +13,11 @@ Pastikan perangkat Anda telah terpasang:
 
 ---
 
-## 🚀 Panduan Menjalankan Proyek
+## Panduan Menjalankan Proyek
 
 Jika Anda baru pertama kali meng-clone atau membuka proyek ini, ikuti langkah-langkah berikut:
 
-### 1. Salin Berkas Lingkungan (`.env`)
+### 1. Salin Berkas Lingkungan (.env)
 Salin template konfigurasi dari `.env.example`:
 ```powershell
 Copy-Item .env.example .env
@@ -58,13 +58,13 @@ Nyalakan local development server Laravel:
 php artisan serve
 ```
 Aplikasi web dapat diakses melalui browser di:  
-👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**  
+**http://127.0.0.1:8000**  
 Dan Base URL RESTful API:  
-👉 **`http://127.0.0.1:8000/api/v1`**
+**http://127.0.0.1:8000/api/v1**
 
 ---
 
-## 🔑 Akun Login Default (Hasil Seeder)
+## Akun Login Default (Hasil Seeder)
 
 Gunakan kredensial berikut untuk masuk ke portal web atau otentikasi via API:
 
@@ -76,7 +76,7 @@ Gunakan kredensial berikut untuk masuk ke portal web atau otentikasi via API:
 
 ---
 
-## 🏛️ Struktur Fitur & Endpoint Utama
+## Struktur Fitur & Endpoint Utama
 
 ### A. Web Portal Admin (Session Auth)
 - **Authentication**: `GET /login`, `POST /login`, `POST /logout`
@@ -103,7 +103,7 @@ Gunakan kredensial berikut untuk masuk ke portal web atau otentikasi via API:
 
 ---
 
-## 🛠️ Perintah Berguna Lainnya
+## Perintah Berguna Lainnya
 
 - **Menjalankan Pengujian Keamanan & Fitur (Test Suite)**:
   ```bash
