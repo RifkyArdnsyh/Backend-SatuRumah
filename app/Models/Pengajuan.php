@@ -13,19 +13,43 @@ class Pengajuan extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    protected $attributes = [
+        'tahap' => 'Dokumen',
+        'status' => 'Menunggu verifikasi',
+    ];
+
     protected $fillable = [
         'id',
+        'user_id',
         'nama_pengembang',
         'nama_perumahan',
         'lokasi',
         'jumlah_unit',
         'luas_kawasan',
         'penanggung_jawab',
-        'tahap',
-        'status',
         'catatan_status',
         'diajukan_pada',
     ];
+
+    /**
+     * Mutasi eksplisit status & tahap (mencegah Mass Assignment dari form input)
+     */
+    public function transitionTo(string $tahap, string $status, ?string $catatan = null): self
+    {
+        $this->tahap = $tahap;
+        $this->status = $status;
+        if ($catatan !== null) {
+            $this->catatan_status = $catatan;
+        }
+        $this->save();
+
+        return $this;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     public function dokumen()
     {

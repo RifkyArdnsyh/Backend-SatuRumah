@@ -20,36 +20,37 @@ class SurveyController extends Controller
 
         $jamSurvey = $request->filled('jam_survey') ? $request->jam_survey : '09.00 WIB';
 
-        // Mark previous active survey as Dijadwalkan Ulang if existing
-        SurveyPengajuan::where('pengajuan_id', $pengajuan_id)
-            ->where('status', 'Terjadwal')
-            ->update(['status' => 'Dijadwalkan Ulang']);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $pengajuan_id, $jamSurvey) {
+            $pengajuan = Pengajuan::lockForUpdate()->findOrFail($pengajuan_id);
 
-        $survey = SurveyPengajuan::create([
-            'pengajuan_id' => $pengajuan_id,
-            'tanggal_survey' => $request->tanggal_survey,
-            'jam_survey' => $jamSurvey,
-            'petugas_nama' => $request->petugas_nama,
-            'petugas_role' => 'Perwaskim',
-            'instruksi' => $request->instruksi,
-            'status' => 'Terjadwal',
-        ]);
+            // Mark previous active survey as Dijadwalkan Ulang if existing
+            SurveyPengajuan::where('pengajuan_id', $pengajuan_id)
+                ->where('status', 'Terjadwal')
+                ->update(['status' => 'Dijadwalkan Ulang']);
 
-        // Update pengajuan status & tahap
-        $pengajuan = Pengajuan::findOrFail($pengajuan_id);
-        $pengajuan->tahap = 'Survey';
-        $pengajuan->status = 'Terjadwal';
-        $pengajuan->save();
+            $survey = SurveyPengajuan::create([
+                'pengajuan_id' => $pengajuan_id,
+                'tanggal_survey' => $request->tanggal_survey,
+                'jam_survey' => $jamSurvey,
+                'petugas_nama' => $request->petugas_nama,
+                'petugas_role' => 'Perwaskim',
+                'instruksi' => $request->instruksi,
+                'status' => 'Terjadwal',
+            ]);
 
-        RiwayatPengajuan::create([
-            'pengajuan_id' => $pengajuan_id,
-            'judul' => 'Penjadwalan Survey Dikonfirmasi',
-            'deskripsi' => "Survey dijadwalkan pada {$request->tanggal_survey} pukul {$jamSurvey} dengan petugas {$request->petugas_nama}.",
-            'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
-            'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
-        ]);
+            // Update pengajuan status & tahap
+            $pengajuan->transitionTo('Survey', 'Terjadwal');
 
-        return redirect()->route('pengajuan.show', ['id' => $pengajuan_id, 'tab' => 'monitoring'])
-            ->with('success', 'Jadwal survey berhasil disimpan!');
+            RiwayatPengajuan::create([
+                'pengajuan_id' => $pengajuan_id,
+                'judul' => 'Penjadwalan Survey Dikonfirmasi',
+                'deskripsi' => "Survey dijadwalkan pada {$request->tanggal_survey} pukul {$jamSurvey} dengan petugas {$request->petugas_nama}.",
+                'oleh' => auth()->user()->name ?? 'Verifikator Disperwaskim',
+                'tanggal' => now()->translatedFormat('d F Y · H.i') . ' WIB',
+            ]);
+
+            return redirect()->route('pengajuan.show', ['id' => $pengajuan_id, 'tab' => 'monitoring'])
+                ->with('success', 'Jadwal survey berhasil disimpan!');
+        });
     }
 }
